@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Выбор подарка</title>
+    <title>Choose gift</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -56,16 +56,16 @@
 </head>
 <body>
     <div class="container">
-        <h1>Выберите подарок</h1>
+        <h1>Choose gift</h1>
         
         <form action="/filter" method="get">
             <select name="category">
-                <option value="">Выберите категорию</option>
+                <option value="">Choose category</option>
                 {% for category in categories %}
                     <option value="{{ category }}">{{ category }}</option>
                 {% endfor %}
             </select>
-            <button type="submit">Фильтровать</button>
+            <button type="submit">Filter</button>
         </form>
 
         <div class="gifts-list">
