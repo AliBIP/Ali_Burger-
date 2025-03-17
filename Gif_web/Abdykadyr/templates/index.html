@@ -5,25 +5,108 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Выбор подарка</title>
     <style>
-        body {
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.logo img {
+    transition: transform 0.3s ease;
+}
+
+.logo img:hover {
+    transform: scale(1.1);
+}
+
+nav {
+    display: flex;
+    gap: 15px;
+}
+
+nav a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    transition: color 0.3s ease, transform 0.2s ease;
+}
+
+nav a:hover {
+    color: #d35400;
+    transform: scale(1.05);
+}
+
+nav a:active {
+    color: #b84300;
+}
+
+body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
             margin: 0;
             padding: 0;
         }
         .container {
-            width: 80%;
-            margin: 0 auto;
+            width: 90%;
+            max-width: 900px;
+            margin: 20px auto;
             padding: 20px;
             background-color: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        h1 {
+            text-align: center;
+            color: #d35400; /* Оранжевый заголовок */
+        }
+        form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
         }
         select {
-            display: block;
-            width: 100%;
+            flex: 1;
+            min-width: 200px;
             padding: 10px;
-            margin-bottom: 20px;
             font-size: 16px;
+            border: 2px solid #e67e22; /* Оранжевая рамка */
+            border-radius: 5px;
+            background-color: #fffaf0;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #e67e22; /* Оранжевый цвет кнопки */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+        button:hover {
+            background-color: #d35400; /* Темно-оранжевый при наведении */
+            transform: scale(1.05);
+        }
+        button:active {
+            background-color: #b84300; /* Глубокий оранжевый при нажатии */
+            transform: scale(0.98);
         }
         .gifts-list {
             display: flex;
@@ -32,12 +115,24 @@
             justify-content: center;
         }
         .gift-item {
-            background-color: #f8f8f8;
+            background-color: #fffaf0; /* Светло-оранжевый фон */
             padding: 15px;
             border-radius: 10px;
             text-align: center;
-            width: 200px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 220px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease, border-color 0.3s ease;
+            border: 2px solid #f39c12; /* Оранжевая рамка */
+        }
+        .gift-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+            border-color: #e67e22; /* Более насыщенный оранжевый при наведении */
+        }
+        .gift-item:active {
+            background-color: #f5d7a8; /* Более насыщенный цвет при нажатии */
+            border-color: #d35400;
+            transform: scale(0.98);
         }
         .gift-item img {
             max-width: 100%;
@@ -47,14 +142,42 @@
         .gift-item h3 {
             font-size: 18px;
             margin: 10px 0;
+            color: #d35400; /* Оранжевый заголовок */
         }
         .gift-item p {
             font-size: 14px;
             color: #555;
         }
+
+        @media (max-width: 600px) {
+            .container {
+                width: 95%;
+                padding: 15px;
+            }
+            form {
+                flex-direction: column;
+            }
+            select {
+                width: 100%;
+            }
+            button {
+                width: 100%;
+            }
+        }
+
     </style>
 </head>
 <body>
+    <header>
+        <div class="logo"><img src="/static/img/gift/Frame 4.png" alt="Logo" width="50" height="50"></div>
+        <nav>
+            <a href="#">Browse Gifts</a>
+            <a href="#">My Gifts</a>
+            <a href="#">Info about us</a>
+            <a href="#">Sign Up</a>
+
+        </nav>
+    </header>
     <div class="container">
         <h1>Выберите подарок</h1>
         
