@@ -71,7 +71,6 @@
         <div class="gifts-list">
             {% for gift in gifts %}
                 <div class="gift-item">
-                    <!-- Используем url_for для пути к изображению -->
                     <img src="{{ url_for('static', filename='images/' + gift['image']) }}" alt="{{ gift['name'] }}">
                     <h3>{{ gift['name'] }}</h3>
                     <p>{{ gift['description'] }}</p>
