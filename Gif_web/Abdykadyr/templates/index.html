@@ -5,61 +5,56 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Choose gift</title>
     <style>
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-}
-
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-    background: white;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-.logo img {
-    transition: transform 0.3s ease;
-}
-
-.logo img:hover {
-    transform: scale(1.1);
-}
-
-nav {
-    display: flex;
-    gap: 15px;
-}
-
-nav a {
-    text-decoration: none;
-    color: #333;
-    font-weight: 500;
-    transition: color 0.3s ease, transform 0.2s ease;
-}
-
-nav a:hover {
-    color: #d35400;
-    transform: scale(1.05);
-}
-
-nav a:active {
-    color: #b84300;
-}
-
-body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+        * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            position: relative; /* Чтобы шары не перекрывали контент */
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo img {
+            transition: transform 0.3s ease;
+        }
+
+        .logo img:hover {
+            transform: scale(1.1);
+        }
+
+        nav {
+            display: flex;
+            gap: 15px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s ease, transform 0.2s ease;
+        }
+
+        nav a:hover {
+            color: #d35400;
+            transform: scale(1.05);
+        }
+
+        nav a:active {
+            color: #b84300;
+        }
+
         .container {
             width: 90%;
             max-width: 900px;
@@ -69,10 +64,12 @@ body {
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             border-radius: 10px;
         }
+
         h1 {
             text-align: center;
-            color: #d35400; /* Оранжевый заголовок */
+            color: #d35400;
         }
+
         form {
             display: flex;
             justify-content: center;
@@ -81,69 +78,80 @@ body {
             flex-wrap: wrap;
             margin-bottom: 20px;
         }
+
         select {
             flex: 1;
             min-width: 200px;
             padding: 10px;
             font-size: 16px;
-            border: 2px solid #e67e22; /* Оранжевая рамка */
+            border: 2px solid #e67e22;
             border-radius: 5px;
             background-color: #fffaf0;
         }
+
         button {
             padding: 10px 20px;
             font-size: 16px;
-            background-color: #e67e22; /* Оранжевый цвет кнопки */
+            background-color: #e67e22;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             transition: background 0.3s ease, transform 0.2s ease;
         }
+
         button:hover {
-            background-color: #d35400; /* Темно-оранжевый при наведении */
+            background-color: #d35400;
             transform: scale(1.05);
         }
+
         button:active {
-            background-color: #b84300; /* Глубокий оранжевый при нажатии */
+            background-color: #b84300;
             transform: scale(0.98);
         }
+
         .gifts-list {
             display: flex;
             flex-wrap: wrap;
             gap: 20px;
             justify-content: center;
         }
+
         .gift-item {
-            background-color: #fffaf0; /* Светло-оранжевый фон */
+            background-color: #fffaf0;
             padding: 15px;
             border-radius: 10px;
             text-align: center;
             width: 220px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease, border-color 0.3s ease;
-            border: 2px solid #f39c12; /* Оранжевая рамка */
+            border: 2px solid #f39c12;
         }
+
         .gift-item:hover {
             transform: scale(1.05);
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
-            border-color: #e67e22; /* Более насыщенный оранжевый при наведении */
+            border-color: #e67e22;
         }
+
         .gift-item:active {
-            background-color: #f5d7a8; /* Более насыщенный цвет при нажатии */
+            background-color: #f5d7a8;
             border-color: #d35400;
             transform: scale(0.98);
         }
+
         .gift-item img {
             max-width: 100%;
             height: auto;
             border-radius: 8px;
         }
+
         .gift-item h3 {
             font-size: 18px;
             margin: 10px 0;
-            color: #d35400; /* Оранжевый заголовок */
+            color: #d35400;
         }
+
         .gift-item p {
             font-size: 14px;
             color: #555;
@@ -164,25 +172,25 @@ body {
                 width: 100%;
             }
         }
-        .ball {
-  position: absolute;
-  border-radius: 100%;
-  opacity: 0.7;
-  z-index: -1; 
-  pointer-events: none;
-}
 
+        /* Стили для шаров */
+        .ball {
+            position: absolute;
+            border-radius: 100%;
+            opacity: 0.7;
+            z-index: -1;
+            pointer-events: none;
+        }
     </style>
 </head>
 <body>
     <header>
-        <div class="logo"><img src="static\images/Frame 4.png" alt="Logo" width="50" height="50"></div>
+        <div class="logo"><img src="static/images/Frame 4.png" alt="Logo" width="50" height="50"></div>
         <nav>
             <a href="#">Browse Gifts</a>
             <a href="#">My Gifts</a>
             <a href="#">Info about us</a>
             <a href="#">Sign Up</a>
-
         </nav>
     </header>
     <div class="container">
@@ -208,6 +216,47 @@ body {
             {% endfor %}
         </div>
     </div>
-    <script src="Abdykadyr\backround_ball.js"defer></script>
+
+    <!-- Подключаем скрипт для анимации шаров -->
+    <script>
+        const colors = ["#3CC157", "#2AA7FF", "#FCBC0F", "#F85F36"];
+        const numBalls = 50;
+        const balls = [];
+
+        for (let i = 0; i < numBalls; i++) {
+            let ball = document.createElement("div");
+            ball.classList.add("ball");
+            ball.style.background = colors[Math.floor(Math.random() * colors.length)];
+            ball.style.left = `${Math.floor(Math.random() * 100)}vw`;
+            ball.style.top = `${Math.floor(Math.random() * 100)}vh`;
+            ball.style.transform = `scale(${Math.random()})`;
+            ball.style.width = `${Math.random() * 1.5 + 0.5}em`; 
+            ball.style.height = ball.style.width;
+
+            balls.push(ball);
+            document.body.append(ball);
+        }
+
+        balls.forEach((el, i, ra) => {
+            let to = {
+                x: Math.random() * (i % 2 === 0 ? -5 : 5),
+                y: Math.random() * 6
+            };
+
+            let anim = el.animate(
+                [
+                    { transform: "translate(0, 0)" },
+                    { transform: `translate(${to.x}rem, ${to.y}rem)` }
+                ],
+                {
+                    duration: (Math.random() + 1) * 3000,
+                    direction: "alternate",
+                    fill: "both",
+                    iterations: Infinity,
+                    easing: "ease-in-out"
+                }
+            );
+        });
+    </script>
 </body>
 </html>

@@ -1,4 +1,3 @@
-
 const colors = ["#3CC157", "#2AA7FF", "#FCBC0F", "#F85F36"];
 
 const numBalls = 50;
@@ -11,18 +10,17 @@ for (let i = 0; i < numBalls; i++) {
   ball.style.left = `${Math.floor(Math.random() * 100)}vw`;
   ball.style.top = `${Math.floor(Math.random() * 100)}vh`;
   ball.style.transform = `scale(${Math.random()})`;
-  ball.style.width = `${Math.random()}em`;
+  ball.style.width = `${Math.random() * 1.5 + 0.5}em`; // Обновленный размер
   ball.style.height = ball.style.width;
   
   balls.push(ball);
   document.body.append(ball);
 }
 
-
 balls.forEach((el, i, ra) => {
   let to = {
-    x: Math.random() * (i % 2 === 0 ? -11 : 11),
-    y: Math.random() * 12
+    x: Math.random() * (i % 2 === 0 ? -5 : 5), // Обновленное значение для движения по оси X
+    y: Math.random() * 6 // Обновленное значение для движения по оси Y
   };
 
   let anim = el.animate(
