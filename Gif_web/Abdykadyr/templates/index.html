@@ -14,7 +14,7 @@
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
-            position: relative;
+            position: relative; /* Чтобы шары не перекрывали контент */
         }
 
         header {
@@ -157,12 +157,6 @@
             color: #555;
         }
 
-        .gift-item .store-info {
-            margin-top: 10px;
-            font-weight: bold;
-            color: #333;
-        }
-
         @media (max-width: 600px) {
             .container {
                 width: 95%;
@@ -179,6 +173,14 @@
             }
         }
 
+        /* Стили для шаров */
+        .ball {
+            position: absolute;
+            border-radius: 100%;
+            opacity: 0.7;
+            z-index: -1;
+            pointer-events: none;
+        }
     </style>
 </head>
 <body>
@@ -210,13 +212,11 @@
                     <img src="{{ url_for('static', filename='images/' + gift['image']) }}" alt="{{ gift['name'] }}">
                     <h3>{{ gift['name'] }}</h3>
                     <p>{{ gift['description'] }}</p>
-                    <p class="store-info"><strong>Available at:</strong> {{ gift['store'] }}</p>
                 </div>
             {% endfor %}
         </div>
     </div>
-
-    <!-- Script for animation -->
+    <!-- Подключаем скрипт для анимации шаров -->
     <script>
         const colors = ["#3CC157", "#2AA7FF", "#FCBC0F", "#F85F36"];
         const numBalls = 50;
