@@ -5,7 +5,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 
-# Настройки
+
 app.config['SECRET_KEY'] = 'supersecretkey'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -15,30 +15,28 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
-# Модель пользователя
+
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(150), unique=True, nullable=False)
     email = db.Column(db.String(150), unique=True, nullable=False)
     password = db.Column(db.String(150), nullable=False)
 
-# Функция загрузки пользователя
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-# Главная страница
 @app.route('/')
 def index():
     return render_template('main.html')
 
-# Страница админа (доступна только после входа)
+
 @app.route('/admin_hub')
 @login_required
 def admin_hub():
     return render_template('Nub.html')
 
-# Страница логина
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -55,7 +53,6 @@ def login():
 
     return render_template('login.html')
 
-# Регистрация
 @app.route('/signup', methods=['POST'])
 def signup():
     username = request.form.get('username')
@@ -74,7 +71,7 @@ def signup():
     flash('Аккаунт создан! Теперь войдите в систему.', 'success')
     return redirect(url_for('login'))
 
-# Выход из системы
+
 @app.route('/logout')
 @login_required
 def logout():
@@ -84,5 +81,5 @@ def logout():
 
 if __name__ == '__main__':
     with app.app_context():
-        db.create_all()  # Создаст таблицу users.db
+        db.create_all()  
     app.run(debug=True)
