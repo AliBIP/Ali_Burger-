@@ -1,10 +1,10 @@
-name,category,description,image
-Smartwatch,Technology,Tracking physical activity,smartwatch.jpg
-Wireless headphones,Technology,Excellent sound quality,headphone.jpg
-Lego constructor,Toys,To develop logic and creativity,lego.jpg
-Toy car,Toys,For exciting games,car.jpg
-T-shirt with print,Clothes,Stylish and convenient gift,tshirt.jpg
-Cap,Clothes,Fashion accessory,cap.jpg
-Science of the Universe,Books,Educational book about space,bookuni.jpg
-A novel about love,Books,Romantic story,romance.jpg
+name,category,description,image,store
+Smartwatch,Technology,Tracking physical activity,smartwatch.jpg,store A
+Wireless headphones,Technology,Excellent sound quality,headphone.jpg,store B
+Lego constructor,Toys,To develop logic and creativity,lego.jpg,store C
+Toy car,Toys,For exciting games,car.jpg,store D
+T-shirt with print,Clothes,Stylish and convenient gift,tshirt.jpg,store E
+Cap,Clothes,Fashion accessory,cap.jpg,store F
+Science of the Universe,Books,Educational book about space,bookuni.jpg,store H
+A novel about love,Books,Romantic story,romance.jpg,store G
 
