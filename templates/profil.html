@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='main_css/profil.css') }}">
+
+    <title>Profile</title>
+</head>
+<body>
+    <div class="card-container">
+        <img class="round" src="https://www.alphr.com/wp-content/uploads/2020/10/twitter.png" alt="user" />
+        <h3>{{ user.username }}</h3>  
+        <h6>Bishkek</h6>
+        <div class="buttons">
+            <button class="primary" onclick="window.history.back();">
+                Back
+            </button>
+            <a href="{{ url_for('admin_hub') }}" class="primary ghost">
+                <button class="primary ghost">Next</button>
+            </a>
+            
+        </div>
+        <div class="skills">
+            <h6>Welcome to your profile, {{ user.username }}!</h6>
+        </div>
+    </div>
+</body>
+</html>
