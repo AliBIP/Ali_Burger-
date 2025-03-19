@@ -3,15 +3,8 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
-
-
-
-
-
-#ABDYKAYR ESLI BUDESH VNOCIT IZMENENIS TOLKO SVOI KOD 
-#################################
+  
 app = Flask(__name__)
-
 
 app.config['SECRET_KEY'] = 'supersecretkey'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
@@ -22,22 +15,9 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
-
 gifts_df = pd.read_csv('gifts_data.csv')
 gifts_df['image'] = gifts_df['image'].fillna('default.jpg')  
 gifts_df['image'] = gifts_df['image'].astype(str)
-
-#################################
-
-
-
-
-
-
-
-
-
-
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -49,32 +29,27 @@ class User(UserMixin, db.Model):
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-
 @app.route('/')
+def main():
+    return render_template('main.html')
+
+@app.route('/index')
 def home():
     categories = gifts_df['category'].unique()
-    gifts = gifts_df.to_dict(orient='records')
-    return render_template('index.html', categories=categories, gifts=gifts)
+    return render_template('index.html', categories=categories, gifts=gifts_df.to_dict(orient='records'))
 
 
 @app.route('/filter', methods=['GET'])
 def filter_gifts():
     category = request.args.get('category', default=None)
-
-    if category:
-        filtered_gifts = gifts_df[gifts_df['category'] == category]
-    else:
-        filtered_gifts = gifts_df
-
+    filtered_gifts = gifts_df[gifts_df['category'] == category] if category else gifts_df
     categories = gifts_df['category'].unique()
     return render_template('index.html', gifts=filtered_gifts.to_dict(orient='records'), categories=categories)
-
 
 @app.route('/admin_hub')
 @login_required
 def admin_hub():
     return render_template('Nub.html')
-
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -91,7 +66,6 @@ def login():
             flash('Неверный email или пароль', 'danger')
 
     return render_template('login.html')
-
 
 @app.route('/signup', methods=['POST'])
 def signup():
@@ -111,7 +85,6 @@ def signup():
     flash('Аккаунт создан! Теперь войдите в систему.', 'success')
     return redirect(url_for('login'))
 
-
 @app.route('/logout')
 @login_required
 def logout():
@@ -119,13 +92,7 @@ def logout():
     flash('Вы вышли из системы.', 'info')
     return redirect(url_for('login'))
 
-
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()  
     app.run(debug=True)
-
-@app.route('/')
-def home():
-    categories = gifts_df['category'].unique()
-    return render_template('index.html', categories=categories, gifts=gifts_df.to_dict(orient='records'))
