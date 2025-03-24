@@ -4,8 +4,9 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 
+###############################
 app = Flask(__name__)
-
+###############################
 app.config['SECRET_KEY'] = 'supersecretkey'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -15,11 +16,18 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
+###################################
 gifts_df = pd.read_csv('gifts_data.csv')
 gifts_df['image'] = gifts_df['image'].fillna('default.jpg')  
 gifts_df['image'] = gifts_df['image'].astype(str)
 
-
+@app.route('/filter', methods=['GET'])
+def filter_gifts():
+    category = request.args.get('category', default=None)
+    filtered_gifts = gifts_df[gifts_df['category'] == category] if category else gifts_df
+    categories = gifts_df['category'].unique()
+    return render_template('index.html', gifts=filtered_gifts.to_dict(orient='records'), categories=categories)
+######################
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(150), unique=True, nullable=False)
@@ -36,19 +44,14 @@ def load_user(user_id):
 def main():
     return render_template('main.html')
 
-
+#################
 @app.route('/index')
 def home():
     categories = gifts_df['category'].unique()
     return render_template('index.html', categories=categories, gifts=gifts_df.to_dict(orient='records'))
+##################
 
 
-@app.route('/filter', methods=['GET'])
-def filter_gifts():
-    category = request.args.get('category', default=None)
-    filtered_gifts = gifts_df[gifts_df['category'] == category] if category else gifts_df
-    categories = gifts_df['category'].unique()
-    return render_template('index.html', gifts=filtered_gifts.to_dict(orient='records'), categories=categories)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -61,7 +64,7 @@ def login():
         if user and check_password_hash(user.password, password):
             login_user(user)
             flash(f'Добро пожаловать, {user.username}!', 'success')
-            return redirect(url_for('profile'))  # Сначала профиль
+            return redirect(url_for('profile')) 
         else:
             flash('Неверный email или пароль', 'danger')
 
