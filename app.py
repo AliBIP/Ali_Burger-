@@ -117,8 +117,3 @@ if __name__ == '__main__':
         db.create_all()
     app.run(debug=True)
 
-@app.route('/drugaia')
-@login_required
-def drugaia():
-    return render_template('main.html')
-
