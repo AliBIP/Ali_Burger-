@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>GiftWise - Find Your Perfect Gift</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='main_css/main2.css') }}">
+  </head>
+  <body>
+    <nav class="nav-container">
+      <div class="navbar">
+        <a href="#" class="logo">GIFTWISE</a>
+        <div class="nav-links">
+          <a href="#about">About Us</a>
+          <a href="#features">Features</a>
+          <a href="{{ url_for('home') }}">Categories</a>
+          <a href="{{ url_for('login') }}">Sign up</a>
+        </div>
+        <button class="burger">
+          <div></div>
+          <div></div>
+          <div></div>
+        </button>
+      </div>
+    </nav>
+
+    <div class="slider">
+      <div class="slider-content">
+        <h1>GIFTWISE</h1>
+        <p>Discover the perfect gift for every occasion</p>
+        <a href="{{ url_for('home') }}" class="cta-button">Explore Gifts</a>
+      </div>
+    </div>
+
+    <section id="about" class="about-section">
+      <div class="about-content">
+        <div class="about-intro">
+          <h2>Welcome to GiftWise</h2>
+          <p>At GiftWise, we understand that finding the perfect gift can be challenging. That's why we've created a comprehensive platform that combines intelligent gift recommendations with a curated selection of thoughtful presents for every occasion.</p>
+        </div>
+
+        <div class="about-grid">
+          <div class="about-card">
+            <div class="about-icon">🎯</div>
+            <h3>Personalized Recommendations</h3>
+            <p>Our smart algorithm suggests perfect gifts based on recipient's interests and occasion</p>
+          </div>
+          <div class="about-card">
+            <div class="about-icon">⚡</div>
+            <h3>Quick & Easy</h3>
+            <p>Find the ideal gift in minutes with our intuitive category-based navigation</p>
+          </div>
+          <div class="about-card">
+            <div class="about-icon">💝</div>
+            <h3>Thoughtful Selection</h3>
+            <p>Carefully curated gifts that make every moment special and memorable</p>
+          </div>
+        </div>
+
+        <div id="features" class="features-grid">
+          <div class="feature-item">
+            <div class="feature-icon">🎨</div>
+            <div class="feature-content">
+              <h3>Custom Gift Design</h3>
+              <p>Create personalized gifts with our custom design tools and expert guidance</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">📅</div>
+            <div class="feature-content">
+              <h3>Gift Reminders</h3>
+              <p>Never miss an important occasion with our smart reminder system</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">🚚</div>
+            <div class="feature-content">
+              <h3>Worldwide Shipping</h3>
+              <p>Fast and reliable delivery to your loved ones anywhere in the world</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">💯</div>
+            <div class="feature-content">
+              <h3>Satisfaction Guarantee</h3>
+              <p>100% satisfaction guaranteed with our hassle-free return policy</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div id="categories" class="menu-container">
+      <div class="menu-header">
+        <h2>Explore Categories</h2>
+        <p>Find the ideal gift for your loved ones</p>
+      </div>
+      
+      <div class="gift-categories">
+        <div class="category-card" onclick="handleCategoryClick('birthday')">
+          <div class="category-icon">🎁</div>
+          <h3 class="category-title">Birthday Gifts</h3>
+          <p class="category-description">Special presents for special days</p>
+        </div>
+        
+        <div class="category-card" onclick="handleCategoryClick('anniversary')">
+          <div class="category-icon">💝</div>
+          <h3 class="category-title">Anniversary</h3>
+          <p class="category-description">Celebrate your special moments</p>
+        </div>
+        
+        <div class="category-card" onclick="handleCategoryClick('wedding')">
+          <div class="category-icon">💑</div>
+          <h3 class="category-title">Wedding Gifts</h3>
+          <p class="category-description">Perfect presents for the perfect couple</p>
+        </div>
+        
+        <div class="category-card" onclick="handleCategoryClick('holidays')">
+          <div class="category-icon">🎄</div>
+          <h3 class="category-title">Holiday Specials</h3>
+          <p class="category-description">Seasonal gifts for everyone</p>
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="/static/mode.js/main.js"></script>
+  </body>
+</html>

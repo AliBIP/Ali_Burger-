@@ -42,7 +42,9 @@ def load_user(user_id):
 
 @app.route('/')
 def main():
-    return render_template('main.html')
+    return render_template('main2.html')
+
+
 
 #################
 @app.route('/index')
@@ -114,3 +116,9 @@ if __name__ == '__main__':
     with app.app_context():
         db.create_all()
     app.run(debug=True)
+
+@app.route('/drugaia')
+@login_required
+def drugaia():
+    return render_template('main.html')
+
