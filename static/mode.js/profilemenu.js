@@ -1,4 +1,4 @@
-/* Scripts for css grid dashboard */
+
 
 $(document).ready(() => {
     addResizeListeners();
