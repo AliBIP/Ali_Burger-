@@ -19,89 +19,242 @@
       color: #333;
       position: relative;
     }
+    
 
     .header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 1rem 2rem;
-      background: #ffffff;
-      border-bottom: 1px solid #eaeaea;
+      padding: 1.5rem 2rem;
+      background: rgba(255, 255, 255, 0.95);
+      border-bottom: 1px solid rgba(234, 234, 234, 0.3);
       position: sticky;
       top: 0;
       z-index: 1000;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
+      gap: 2rem;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .search-container {
+      position: relative;
+      width: 300px;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 0.8rem 1rem 0.8rem 2.5rem;
+      border: 2px solid rgba(255, 51, 102, 0.2);
+      border-radius: 50px;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%23ff3366' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: 12px center;
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: #ff3366;
+      box-shadow: 0 0 0 4px rgba(255, 51, 102, 0.2);
+      width: 350px;
     }
 
     .user-profile {
       display: flex;
       align-items: center;
-      gap: 1rem;
+      gap: 1.2rem;
+      padding: 0.5rem;
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 50px;
+      transition: all 0.3s ease;
+    }
+
+    .user-profile:hover {
+      background: rgba(255, 255, 255, 0.8);
+      transform: translateY(-2px);
     }
 
     .avatar {
-      width: 40px;
-      height: 40px;
+      width: 45px;
+      height: 45px;
       border-radius: 50%;
       overflow: hidden;
+      border: 2px solid #fff;
+      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
     }
 
     .avatar img {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    .avatar:hover img {
+      transform: scale(1.1);
     }
 
     .user-name {
       font-size: 1.1rem;
-      font-weight: 500;
-      color: #f38e8e;
+      font-weight: 600;
+      color: #000000;
+      letter-spacing: -0.5px;
     }
 
     .nav-menu {
       display: flex;
-      gap: 2rem;
+      gap: 2.5rem;
       list-style: none;
     }
 
     .nav-menu a {
-      color: #fc9e9e;
+      color: #000000;
       text-decoration: none;
       font-weight: 500;
-      font-size: 1rem;
-      transition: color 0.2s ease;
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
+      position: relative;
+      padding: 0.5rem 0;
+    }
+
+    .nav-menu a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: #ff3366;
+      transition: width 0.3s ease;
     }
 
     .nav-menu a:hover {
       color: #ff3366;
     }
 
+    .nav-menu a:hover::after {
+      width: 100%;
+    }
+
+    .news-slider {
+      position: relative;
+      overflow: hidden;
+      height: 400px;
+      margin-bottom: 2rem;
+    }
+
+    .slider-container {
+      display: flex;
+      transition: transform 0.5s ease;
+    }
+
+    .slide {
+      min-width: 100%;
+      position: relative;
+    }
+
+    .slide img {
+      width: 100%;
+      height: 400px;
+      object-fit: cover;
+    }
+
+    .slide-content {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 2rem;
+      background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+      color: white;
+    }
+
+    .slide-content h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
+
+    .slide-content p {
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+
+    .slider-nav {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 1rem;
+    }
+
+    .slider-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.5);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .slider-dot.active {
+      background: #fff;
+      transform: scale(1.2);
+    }
+
     @media (max-width: 768px) {
       .header {
         flex-direction: column;
-        gap: 1rem;
+        gap: 1.5rem;
         padding: 1rem;
       }
 
+      .header-left {
+        flex-direction: column;
+        width: 100%;
+      }
+
+      .search-container {
+        width: 100%;
+      }
+
+      .search-input:focus {
+        width: 100%;
+      }
+
       .nav-menu {
-        gap: 1.5rem;
+        gap: 2rem;
         flex-wrap: wrap;
         justify-content: center;
+      }
+
+      .slide-content h2 {
+        font-size: 1.5rem;
       }
     }
 
     .container {
       max-width: 1400px;
-      margin: 120px auto 40px;
-      padding: 2rem;
+      margin: 100px auto 60px;
+      padding: 0 2rem;
     }
 
     h1 {
       text-align: center;
-      font-size: 3rem;
-      color: #dc2626;
+      font-size: 3.5rem;
+      background: linear-gradient(135deg, #dc2626 0%, #ff3366 100%);
+      -webkit-text-fill-color: transparent;
       margin-bottom: 3rem;
       font-weight: 700;
-      letter-spacing: -1px;
+      letter-spacing: -2px;
     }
 
     form {
@@ -118,38 +271,43 @@
       bottom: -2rem;
       left: 50%;
       transform: translateX(-50%);
-      width: 100px;
+      width: 150px;
       height: 4px;
-      background: linear-gradient(90deg, transparent, #dc2626, transparent);
+      background: linear-gradient(90deg, transparent, #ff3366, transparent);
       border-radius: 2px;
     }
 
     select {
       min-width: 300px;
-      padding: 1rem 1.75rem;
+      padding: 1.2rem 2rem;
       font-size: 1.1rem;
-      border: 2px solid #fecaca;
-      border-radius: 16px;
+      border: 2px solid rgba(255, 51, 102, 0.2);
+      border-radius: 20px;
       background-color: white;
       color: #4b5563;
       cursor: pointer;
       transition: all 0.3s ease;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23ff3366' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      padding-right: 3rem;
     }
 
     select:focus {
       outline: none;
-      border-color: #dc2626;
-      box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.2);
+      border-color: #ff3366;
+      box-shadow: 0 0 0 4px rgba(255, 51, 102, 0.2);
     }
 
     button {
-      padding: 1rem 2.5rem;
+      padding: 1.2rem 3rem;
       font-size: 1.1rem;
       font-weight: 600;
-      background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+      background: linear-gradient(135deg, #ff3366 0%, #dc2626 100%);
       color: white;
       border: none;
-      border-radius: 16px;
+      border-radius: 20px;
       cursor: pointer;
       transition: all 0.3s ease;
       position: relative;
@@ -163,14 +321,14 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
       transform: translateX(-100%);
       transition: transform 0.6s ease;
     }
 
     button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(220, 38, 38, 0.3);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(255, 51, 102, 0.3);
     }
 
     button:hover::before {
@@ -186,11 +344,22 @@
 
     .gift-item {
       background: white;
-      border-radius: 24px;
       overflow: hidden;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
       transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
       position: relative;
+    }
+
+    .gift-item:nth-child(3n+1) {
+      border-radius: 30px;
+    }
+
+    .gift-item:nth-child(3n+2) {
+      border-radius: 40px 20px;
+    }
+
+    .gift-item:nth-child(3n+3) {
+      border-radius: 20px 40px;
     }
 
     .gift-item:hover {
@@ -200,7 +369,7 @@
 
     .gift-item img {
       width: 100%;
-      height: 280px;
+      height: 300px;
       object-fit: cover;
       transition: transform 0.5s ease;
     }
@@ -214,6 +383,7 @@
       font-size: 1.5rem;
       color: #1a1a1a;
       font-weight: 600;
+      letter-spacing: -0.5px;
     }
 
     .gift-item p {
@@ -222,162 +392,65 @@
       line-height: 1.6;
       font-size: 1.05rem;
     }
-
-/* News Slider Styles */
-.news-slider {
-  margin-top: 3rem;
-  width: 100%;
-  max-width: 800px;
-  margin-left: auto;
-  margin-right: auto;
-  position: relative;
-}
-
-.slider-container {
-  display: flex;
-  overflow: hidden;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.slide {
-  flex: 0 0 100%;
-  position: relative;
-  transition: transform 0.5s ease;
-}
-
-.slide img {
-  width: 100%;
-  height: 400px;
-  object-fit: cover;
-}
-
-.slide-content {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 2rem;
-  background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
-  color: white;
-  text-align: left;
-}
-
-.slide-content h3 {
-  font-size: 1.5rem;
-  margin-bottom: 0.5rem;
-}
-
-.slide-content p {
-  font-size: 1rem;
-  opacity: 0.9;
-}
-
-.slider-nav {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  margin-top: 1rem;
-}
-
-.slider-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  border: none;
-  background-color: #ccc;
-  cursor: pointer;
-  padding: 0;
-  transition: background-color 0.3s ease;
-}
-
-.slider-dot.active {
-  background-color: var(--primary-red);
-}
-
-@media (max-width: 768px) {
-  .header {
-    flex-direction: column;
-    gap: 1rem;
-    padding: 1rem;
-  }
-
-  .nav-menu {
-    gap: 1.5rem;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  .slide img {
-    height: 300px;
-  }
-
-  .slide-content {
-    padding: 1rem;
-  }
-
-  .slide-content h3 {
-    font-size: 1.2rem;
-  }
-}
-
   </style>
 </head>
 <body>
   <header class="header">
-    {% if current_user.is_authenticated %}
-    <div class="user-profile">
-      <div class="avatar">
-        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed={{ current_user.username }}" alt="User Avatar" />
+    <div class="header-left">
+      {% if current_user.is_authenticated %}
+      <div class="user-profile">
+        <div class="avatar">
+          <img src="https://api.dicebear.com/7.x/avataaars/svg?seed={{ current_user.username }}" alt="User Avatar" />
+        </div>
+        <span class="user-name">{{ current_user.username }}</span>
       </div>
-      <span class="user-name">{{ current_user.username }}</span>
+      {% endif %}
+      <div class="search-container">
+        <input type="text" class="search-input" placeholder="Search for gifts...">
+      </div>
     </div>
-    {% endif %}
     <nav>
       <ul class="nav-menu">
         <li><a href="#home">Home</a></li>
         <li><a href="#gifts">Gifts</a></li>
         <li><a href="#special">Special</a></li>
         <li><a href="/logout">Log out</a></li>
-
       </ul>
     </nav>
   </header>
 
+  
 
   <div class="news-slider">
     <div class="slider-container">
       <div class="slide">
-        <img src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?w=500&q=80" alt="Gift News 1">
+        <img src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48" alt="Special Offers">
         <div class="slide-content">
-          <h3>New Holiday Collection</h3>
-          <p>Explore our latest festive gifts</p>
+          <h2>Holiday Special Offers</h2>
+          <p>Get up to 30% off on selected items this season</p>
         </div>
       </div>
       <div class="slide">
-        <img src="https://images.unsplash.com/photo-1607344645866-009c320b63e0?w=500&q=80" alt="Gift News 2">
+        <img src="https://images.unsplash.com/photo-1513885535751-8b9238bd345a" alt="Gift Collections">
         <div class="slide-content">
-          <h3>Special Discount</h3>
-          <p>20% off on all birthday gifts</p>
+          <h2>New Gift Collections</h2>
+          <p>Discover our latest curated gift collections</p>
         </div>
       </div>
       <div class="slide">
-        <img src="https://images.unsplash.com/photo-1512909006721-3d6018887383?w=500&q=80" alt="Gift News 3">
+        <img src="https://images.unsplash.com/photo-1512909006721-3d6018887383" alt="Premium Gifts">
         <div class="slide-content">
-          <h3>Handcrafted Collection</h3>
-          <p>Unique artisan-made gifts</p>
+          <h2>Premium Gift Selection</h2>
+          <p>Luxury gifts for special occasions</p>
         </div>
       </div>
     </div>
     <div class="slider-nav">
-      <button class="slider-dot active" data-slide="0"></button>
-      <button class="slider-dot" data-slide="1"></button>
-      <button class="slider-dot" data-slide="2"></button>
+      <div class="slider-dot active"></div>
+      <div class="slider-dot"></div>
+      <div class="slider-dot"></div>
     </div>
   </div>
-
-
-
 
   <div class="container">
     <h1>Choose Your Perfect Gift</h1>
@@ -402,38 +475,30 @@
       {% endfor %}
     </div>
   </div>
-  <script>// Auto-advancing slider functionality
-    document.addEventListener('DOMContentLoaded', () => {
-      const slides = document.querySelectorAll('.slide');
-      const dots = document.querySelectorAll('.slider-dot');
-      let currentSlide = 0;
-    
-      function showSlide(index) {
-        slides.forEach((slide, i) => {
-          slide.style.transform = `translateX(${100 * (i - index)}%)`;
-        });
-        
-        dots.forEach((dot, i) => {
-          dot.classList.toggle('active', i === index);
-        });
-      }
-    
-      // Initialize first slide
-      showSlide(0);
-    
-      // Auto advance slides
-      setInterval(() => {
-        currentSlide = (currentSlide + 1) % slides.length;
+
+  <script>
+    const sliderContainer = document.querySelector('.slider-container');
+    const slides = document.querySelectorAll('.slide');
+    const dots = document.querySelectorAll('.slider-dot');
+    let currentSlide = 0;
+
+    function showSlide(index) {
+      sliderContainer.style.transform = `translateX(-${index * 100}%)`;
+      dots.forEach(dot => dot.classList.remove('active'));
+      dots[index].classList.add('active');
+    }
+
+    setInterval(() => {
+      currentSlide = (currentSlide + 1) % slides.length;
+      showSlide(currentSlide);
+    }, 5000);
+
+    dots.forEach((dot, index) => {
+      dot.addEventListener('click', () => {
+        currentSlide = index;
         showSlide(currentSlide);
-      }, 5000);
-    
-      // Click handlers for dots
-      dots.forEach((dot, index) => {
-        dot.addEventListener('click', () => {
-          currentSlide = index;
-          showSlide(currentSlide);
-        });
       });
-    });</script>
+    });
+  </script>
 </body>
 </html>
