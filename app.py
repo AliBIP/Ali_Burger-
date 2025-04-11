@@ -6,10 +6,7 @@ from flask_login import (
     logout_user, current_user
 )
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import logout_user
-from flask import redirect, url_for, session
 
-###############################
 app = Flask(__name__)
 
 app.config['SECRET_KEY'] = 'supersecretkey'
@@ -21,14 +18,9 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
-
 gifts_df = pd.read_csv('gifts_data.csv')
 gifts_df['image'] = gifts_df['image'].fillna('default.jpg')
 gifts_df['image'] = gifts_df['image'].astype(str)
-
-
-
-###################################
 
 @app.before_request
 def require_login():
@@ -42,24 +34,18 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(150), unique=True, nullable=False)
     password = db.Column(db.String(150), nullable=False)
 
-
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
-
-
 
 @app.route('/')
 def main():
     return render_template('main2.html')
 
-
-
 @app.route('/index')
 def home():
     categories = gifts_df['category'].unique()
     return render_template('index.html', categories=categories, gifts=gifts_df.to_dict(orient='records'))
-
 
 @app.route('/filter', methods=['GET'])
 def filter_gifts():
@@ -67,8 +53,6 @@ def filter_gifts():
     filtered_gifts = gifts_df[gifts_df['category'] == category] if category else gifts_df
     categories = gifts_df['category'].unique()
     return render_template('index.html', gifts=filtered_gifts.to_dict(orient='records'), categories=categories)
-
-
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -80,13 +64,11 @@ def login():
         if user and check_password_hash(user.password, password):
             login_user(user)
             flash(f'Добро пожаловать, {user.username}!', 'success')
-            return redirect(url_for('profile'))
+            return redirect(url_for('home'))
         else:
             flash('Неверный email или пароль', 'danger')
 
     return render_template('login.html')
-
-
 
 @app.route('/signup', methods=['POST'])
 def signup():
@@ -106,19 +88,15 @@ def signup():
     flash('Аккаунт создан! Теперь войдите в систему.', 'success')
     return redirect(url_for('login'))
 
-
-
 @app.route('/profile')
 @login_required
 def profile():
     return render_template('profil.html', user=current_user)
 
-
 @app.route('/admin_hub')
 @login_required
 def admin_hub():
     return render_template('Nub.html')
-
 
 @app.route('/logout')
 @login_required
@@ -130,12 +108,4 @@ def logout():
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
-    app.run(debug=True) 
-
-
-@app.route('/logout')
-def logout():
-    logout_user()
-    session.clear()  
-    return redirect(url_for('main')) 
-
+    app.run(debug=True)
