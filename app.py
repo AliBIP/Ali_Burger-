@@ -1,32 +1,38 @@
+import os
 import pandas as pd
-from flask import Flask, render_template, request, redirect, url_for, flash
+from datetime import datetime
+from flask import (
+    Flask, render_template, request, redirect,
+    url_for, flash
+)
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import (
     LoginManager, UserMixin, login_user, login_required,
     logout_user, current_user
 )
 from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.utils import secure_filename
+
+
 
 app = Flask(__name__)
 
 app.config['SECRET_KEY'] = 'supersecretkey'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['UPLOAD_FOLDER'] = 'static/uploads'
+
+os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
 db = SQLAlchemy(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
-gifts_df = pd.read_csv('gifts_data.csv')
-gifts_df['image'] = gifts_df['image'].fillna('default.jpg')
-gifts_df['image'] = gifts_df['image'].astype(str)
 
-@app.before_request
-def require_login():
-    allowed_routes = ['login', 'signup', 'static', 'main']
-    if request.endpoint not in allowed_routes and not current_user.is_authenticated:
-        return redirect(url_for('login'))
+gifts_df = pd.read_csv('gifts_data.csv')
+gifts_df['image'] = gifts_df['image'].fillna('default.jpg').astype(str)
+
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -34,9 +40,21 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(150), unique=True, nullable=False)
     password = db.Column(db.String(150), nullable=False)
 
+    bio = db.Column(db.Text)
+    date_of_birth = db.Column(db.Date)
+    gender = db.Column(db.String(10))
+    dark_mode = db.Column(db.Boolean, default=False)
+    avatar_url = db.Column(db.String(300))
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
+@app.before_request
+def require_login():
+    allowed_routes = ['login', 'signup', 'static', 'main']
+    if request.endpoint not in allowed_routes and not current_user.is_authenticated:
+        return redirect(url_for('login'))
 
 @app.route('/')
 def main():
@@ -88,9 +106,32 @@ def signup():
     flash('Аккаунт создан! Теперь войдите в систему.', 'success')
     return redirect(url_for('login'))
 
-@app.route('/profile')
+@app.route('/profile', methods=['GET', 'POST'])
 @login_required
 def profile():
+    if request.method == 'POST':
+        current_user.username = request.form.get('username')
+        current_user.email = request.form.get('email')
+        current_user.bio = request.form.get('bio')
+
+        date_str = request.form.get('date_of_birth')
+        if date_str:
+            current_user.date_of_birth = datetime.strptime(date_str, '%Y-%m-%d').date()
+
+        current_user.gender = request.form.get('gender')
+        current_user.dark_mode = 'dark_mode' in request.form
+
+        avatar = request.files.get('avatar')
+        if avatar and avatar.filename:
+            filename = secure_filename(avatar.filename)
+            avatar_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            avatar.save(avatar_path)
+            current_user.avatar_url = url_for('static', filename=f'uploads/{filename}')
+
+        db.session.commit()
+        flash('Профиль обновлён!', 'success')
+        return redirect(url_for('profile'))
+
     return render_template('profil.html', user=current_user)
 
 @app.route('/admin_hub')
@@ -109,7 +150,3 @@ if __name__ == '__main__':
     with app.app_context():
         db.create_all()
     app.run(debug=True)
-
-@app.route('/profile')
-def profile():
-    return render_template('profil.html')

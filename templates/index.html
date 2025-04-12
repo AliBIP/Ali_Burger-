@@ -61,6 +61,7 @@
         </li>
     </ul>
   </nav>
+  
 
   <main class="content">
     <header class="header">
@@ -68,8 +69,10 @@
         {% if current_user.is_authenticated %}
         <div class="user-profile">
           <div class="avatar">
-            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed={{ current_user.username }}" alt="User Avatar" />
-          </div>
+            <img src="{{ current_user.avatar_url }}" alt="User Avatar">
+
+
+            </div>
           <span class="user-name">{{ current_user.username }}</span>
         </div>
         {% endif %}

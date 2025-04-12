@@ -1,29 +1,110 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="{{ 'dark' if current_user.dark_mode else 'light' }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Settings - Gift Site</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='main_css/profil.css') }}">
-
-    <title>Profile</title>
 </head>
 <body>
-    <div class="card-container">
-        <img class="round" src="https://www.alphr.com/wp-content/uploads/2020/10/twitter.png" alt="user" />
-        <h3>{{ user.username }}</h3>  
-        <h6>Bishkek</h6>
-        <div class="buttons">
-            <button class="primary" onclick="window.history.back();">
-                Back
-            </button>
-            <a href="{{ url_for('admin_hub') }}" class="primary ghost">
-                <button class="primary ghost">Next</button>
-            </a>
-            
-        </div>
-        <div class="skills">
-            <h6>Welcome to your profile, {{ user.username }}!</h6>
-        </div>
+    <div class="container">
+        <h1>Profile Settings</h1>
+        
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for category, message in messages %}
+                        <div class="flash-message {{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <form class="settings-form" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="avatar">Profile Picture</label>
+                {% if current_user.avatar_url %}
+                    <img src="{{ current_user.avatar_url }}" alt="Current avatar" class="avatar-preview" id="avatarPreview">
+                {% else %}
+                    <img src="{{ url_for('static', filename='default-avatar.png') }}" alt="Default avatar" class="avatar-preview" id="avatarPreview">
+                {% endif %}
+                <input type="file" id="avatar" name="avatar" accept="image/*">
+            </div>
+
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" value="{{ current_user.username }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" value="{{ current_user.email }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="bio">Bio</label>
+                <textarea id="bio" name="bio" rows="4">{{ current_user.bio or '' }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="date_of_birth">Date of Birth</label>
+                <input type="date" id="date_of_birth" name="date_of_birth" 
+                       value="{{ current_user.date_of_birth.strftime('%Y-%m-%d') if current_user.date_of_birth else '' }}">
+            </div>
+
+            <div class="form-group">
+                <label for="gender">Gender</label>
+                <select id="gender" name="gender">
+                    <option value="">Prefer not to say</option>
+                    <option value="male" {% if current_user.gender == 'male' %}selected{% endif %}>Male</option>
+                    <option value="female" {% if current_user.gender == 'female' %}selected{% endif %}>Female</option>
+                    <option value="other" {% if current_user.gender == 'other' %}selected{% endif %}>Other</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" name="dark_mode" {% if current_user.dark_mode %}checked{% endif %}>
+                    Enable Dark Mode
+                </label>
+                <p>{{ current_user.avatar_url }}</p>
+            </div>
+
+            <button type="submit" class="btn">Save Changes</button>
+        </form>
     </div>
+
+    <script>
+
+        document.getElementById('avatar').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('avatarPreview').src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+
+
+        document.querySelector('input[name="dark_mode"]').addEventListener('change', function(e) {
+            document.documentElement.setAttribute('data-theme', e.target.checked ? 'dark' : 'light');
+        });
+
+        document.querySelector('.settings-form').addEventListener('submit', function(e) {
+            const email = document.getElementById('email').value;
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            
+            if (!emailRegex.test(email)) {
+                e.preventDefault();
+                alert('Please enter a valid email address');
+            }
+        });
+    </script>
+
+
+
+
 </body>
 </html>

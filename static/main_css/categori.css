@@ -264,7 +264,6 @@
     width: 100%;
   }
   
-  /* Slider styles */
   .news-slider {
     position: relative;
     overflow: hidden;
@@ -279,6 +278,7 @@
   
   .slide {
     min-width: 100%;
+    height: 600px;
     position: relative;
   }
   
