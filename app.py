@@ -12,6 +12,7 @@ from flask_login import (
 )
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
+from flask import Flask, render_template, request, redirect, url_for, flash, session
 
 
 
@@ -31,8 +32,10 @@ login_manager.login_view = 'login'
 
 
 gifts_df = pd.read_csv('gifts_data.csv')
-gifts_df['image'] = gifts_df['image'].fillna('default.jpg').astype(str)
+if 'id' not in gifts_df.columns:
+    gifts_df.insert(0, 'id', range(1, len(gifts_df) + 1))  # Генерирует ID с 1 и выше
 
+gifts_df['image'] = gifts_df['image'].fillna('default.jpg').astype(str)
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -63,14 +66,74 @@ def main():
 @app.route('/index')
 def home():
     categories = gifts_df['category'].unique()
-    return render_template('index.html', categories=categories, gifts=gifts_df.to_dict(orient='records'))
+    recipients = gifts_df['recipient'].unique()
+    return render_template(
+        'index.html',
+        categories=categories,
+        recipients=recipients,
+        gifts=gifts_df.to_dict(orient='records')
+    )
+
 
 @app.route('/filter', methods=['GET'])
 def filter_gifts():
     category = request.args.get('category', default=None)
-    filtered_gifts = gifts_df[gifts_df['category'] == category] if category else gifts_df
+    recipient = request.args.get('recipient', default=None)
+
+    filtered_gifts = gifts_df
+
+    if category:
+        filtered_gifts = filtered_gifts[filtered_gifts['category'] == category]
+
+    if recipient:
+        filtered_gifts = filtered_gifts[filtered_gifts['recipient'] == recipient]
+
     categories = gifts_df['category'].unique()
-    return render_template('index.html', gifts=filtered_gifts.to_dict(orient='records'), categories=categories)
+    recipients = gifts_df['recipient'].unique()
+
+    return render_template(
+        'index.html',
+        gifts=filtered_gifts.to_dict(orient='records'),
+        categories=categories,
+        recipients=recipients
+    )
+
+
+@app.route('/add_to_wishlist/<int:gift_id>', methods=['POST'])
+def add_to_wishlist(gift_id):
+    wishlist = session.get('wishlist', [])
+    if gift_id not in wishlist:
+        wishlist.append(gift_id)
+    session['wishlist'] = wishlist
+    return redirect(url_for('gift_detail', gift_id=gift_id))
+
+
+@app.route('/wishlist')
+def wishlist():
+    wishlist_ids = session.get('wishlist', [])
+    wishlist_gifts = gifts_df[gifts_df['id'].isin(wishlist_ids)]
+    return render_template('wishlist.html', gifts=wishlist_gifts.to_dict(orient='records'))
+
+@app.route('/remove_from_wishlist/<int:gift_id>', methods=['POST'])
+def remove_from_wishlist(gift_id):
+    wishlist = session.get('wishlist', [])
+    if gift_id in wishlist:
+        wishlist.remove(gift_id)
+    session['wishlist'] = wishlist
+    return redirect(url_for('wishlist'))
+
+@app.route('/gift/<int:gift_id>')
+@login_required
+def gift_detail(gift_id):
+    gift = gifts_df[gifts_df['id'] == gift_id].to_dict(orient='records')
+    if not gift:
+        flash('Подарок не найден.', 'danger')
+        return redirect(url_for('home'))
+
+    gift = gift[0]
+    return render_template('gift_detail.html', gift=gift)
+
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

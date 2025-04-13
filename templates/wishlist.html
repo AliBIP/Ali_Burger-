@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Мой вишлист</title>
+    <style>
+        /* Общие стили */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 36px;
+            color: #444;
+        }
+
+        .gift-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .gift-card {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 280px;
+            margin: 15px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .gift-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .gift-card img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        button {
+            font-size: 14px;
+            padding: 10px 15px;
+            background-color: #ff5722;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 15px;
+        }
+
+        button:hover {
+            background-color: #e64a19;
+        }
+
+        .empty-wishlist {
+            font-size: 20px;
+            text-align: center;
+            color: #888;
+        }
+
+        .back-button {
+            display: block;
+            text-align: center;
+            margin-top: 30px;
+            font-size: 18px;
+            text-decoration: none;
+            color: #3f51b5;
+        }
+
+        .back-button:hover {
+            text-decoration: underline;
+        }
+
+        /* Новое положение кнопки */
+        .remove-button {
+            width: 100%;
+            margin-top: 15px;
+            background-color: #ff5722;
+            padding: 12px;
+            font-size: 16px;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            color: white;
+            border: none;
+        }
+
+        .remove-button:hover {
+            background-color: #e64a19;
+        }
+
+        /* Позиционирование кнопки "Назад" */
+        .back-button {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 20px;
+            background-color: #3f51b5;
+            color: white;
+            border-radius: 20px;
+            text-align: center;
+            font-size: 18px;
+            text-decoration: none;
+        }
+
+        .back-button:hover {
+            background-color: #303f9f;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎁 Мои подарки</h1>
+    <div class="gift-list">
+        {% for gift in gifts %}
+            <div class="gift-card">
+                <h2>{{ gift['name'] }}</h2>
+                <img src="{{ url_for('static', filename='images/' + gift['image']) }}" alt="{{ gift['name'] }}">
+                <p>{{ gift['description'] }}</p>
+                <p>Категория: {{ gift['category'] }}</p>
+                <p>Для: {{ gift['recipient'] }}</p>
+                <a href="{{ url_for('gift_detail', gift_id=gift['id']) }}">Подробнее</a>
+
+                <form action="{{ url_for('remove_from_wishlist', gift_id=gift['id']) }}" method="post">
+                    <button type="submit" class="remove-button">Удалить из вишлиста</button>
+                </form>
+            </div>
+        {% else %}
+            <p class="empty-wishlist">Ваш вишлист пуст 😔</p>
+        {% endfor %}
+    </div>
+
+    <a href="{{ url_for('home') }}" class="back-button">← Назад</a>
+</body>
+</html>

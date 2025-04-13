@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ gift.name }}</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 30px;
+        }
+        
+        .gift-detail {
+            background: linear-gradient(135deg, #ff6f61, #ff8a65);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            color: white;
+        }
+
+        .gift-detail img {
+            width: 80%;
+            max-height: 300px;
+            object-fit: contain;
+            border-radius: 12px;
+            margin-top: 15px;
+        }
+
+        .gift-detail h1 {
+            color: #fff;
+            margin-top: 20px;
+            font-size: 32px;
+            font-weight: bold;
+        }
+
+        .gift-detail p {
+            color: #fff;
+            font-size: 16px;
+            margin-top: 10px;
+            line-height: 1.6;
+        }
+
+        .store-info {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .store-info h3 {
+            font-size: 24px;
+            color: #e67e22;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .store-info p {
+            font-size: 16px;
+            color: #7f8c8d;
+            margin-bottom: 10px;
+        }
+
+        .store-info iframe {
+            border-radius: 12px;
+            margin-top: 15px;
+        }
+
+        .store-info a {
+            display: inline-block;
+            margin-top: 15px;
+            background-color: #3498db;
+            color: white;
+            padding: 12px 20px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .store-info a:hover {
+            background-color: #2980b9;
+        }
+
+        
+        .wishlist-button {
+            padding: 10px 20px;
+            background-color: #ff4081;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .wishlist-button:hover {
+            background-color: #e91e63;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="gift-detail">
+            <img src="{{ url_for('static', filename='images/' + gift.image) }}" alt="{{ gift.name }}">
+            <h1>{{ gift.name }}</h1>
+            <p>{{ gift.description }}</p>
+            <p><strong>Цена: </strong>{{ gift.price }} сом</p>
+            
+            <form action="{{ url_for('add_to_wishlist', gift_id=gift.id) }}" method="post">
+                <button type="submit" class="wishlist-button">
+                    {% if gift.id in wishlist %}
+                        ✅ В вишлисте
+                    {% else %}
+                        ➕ Добавить в вишлист
+                    {% endif %}
+                </button>
+            </form>
+            
+        </div>
+
+        <div class="store-info">
+            <h3>Магазин: {{ gift.store }}</h3>
+            <p><strong>Контактный телефон:</strong> +996 700 000 000</p>
+
+            {% if gift.store == "Technodom" %}
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2924.885987210163!2d76.8882875!3d43.2389491!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38836efb206aa6e5%3A0xa90c6d34d00a7757!2sTechnodom!5e0!3m2!1sen!2skg!4v1712783731912" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                <p><a href="https://maps.app.goo.gl/arvVd9Q26mph2tv28" target="_blank">Открыть в Google Картах</a></p>
+            {% elif gift.store == "Sezimastore and Dali_Collection" %}
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2924.944001227151!2d76.9007896!3d43.2416492!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38836ee8fc30dc6d%3A0x95b4ec8163f317e7!2sFashion%20Shop!5e0!3m2!1sen!2skg!4v1712783826577" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                <p><a href="https://maps.app.goo.gl/Ne6pBE9MYvjoQ2TE9" target="_blank">Открыть в Google Картах</a></p>
+            {% elif gift.store == "Toyskg" %}
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2924.812889942997!2d76.9041365!3d43.2505763!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x388369d3f34dbf41%3A0x2d3a1f5115d991ce!2sToyskg!5e0!3m2!1sen!2skg!4v1712783857356" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                <p><a href="https://maps.app.goo.gl/ZZqoa653pnB4SPMu6" target="_blank">Открыть в Google Картах</a></p>
+            {% elif gift.store == "Раритет" %}
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2924.7153187099147!2d76.8776135!3d43.2547634!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3883693c27e95c71%3A0x409f4c3d24cce13b!2z0KDQtdGB0YLQvtGA0L7QstGB0LrQsNGPINGD0LsuLCAxNSwg0JHRg9GA0YHQuNC90LrQvtCz0L4g0LrQvtGA0L_Rg9GB0LrQsNGPINC60L7QvdGP0Y8sINCh0LDQvNC40L3QsCwg0KPQutGA0LDRl9C90YHRgtCw0L3QuNGP!5e0!3m2!1sen!2skg!4v1712783893222" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                <p><a href="https://maps.app.goo.gl/tCHCxD1siUEvCoo1A" target="_blank">Открыть в Google Картах</a></p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

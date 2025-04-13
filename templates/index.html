@@ -83,7 +83,7 @@
       <nav>
         <ul class="nav-menu">
           <li><a href="{{ url_for('profile') }}">Profile</a></li>
-          <li><a href="#gifts">Gifts</a></li>
+          <a href="{{ url_for('wishlist') }}" class="wishlist-link">Gifts</a>
           <li><a href="#special">Special</a></li>
           <li><a href="/logout">Log out</a></li>
         </ul>
@@ -126,23 +126,35 @@
   
       <form action="/filter" method="get">
         <select name="category">
-          <option value="">Choose category</option>
-          {% for category in categories %}
-          <option value="{{ category }}">{{ category }}</option>
-          {% endfor %}
+            <option value="">Choose category</option>
+            {% for category in categories %}
+                <option value="{{ category }}">{{ category }}</option>
+            {% endfor %}
         </select>
-        <button type="submit">Find Gifts</button>
-      </form>
+        <select name="recipient">
+            <option value="">Choose recipient</option>
+            {% for r in recipients %}
+                <option value="{{ r }}">{{ r }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Filter</button>
+    </form>
+
   
-      <div class="gifts-list">
-        {% for gift in gifts %}
-        <div class="gift-item">
-          <img src="{{ url_for('static', filename='images/' + gift['image']) }}" alt="{{ gift['name'] }}">
-          <h3>{{ gift['name'] }}</h3>
-          <p>{{ gift['description'] }}</p>
-        </div>
-        {% endfor %}
-      </div>
+     
+<div class="gifts-list">
+  {% for gift in gifts %}
+      <a href="{{ url_for('gift_detail', gift_id=gift['id']) }}" target="_blank" style="text-decoration: none;">
+          <div class="gift-item">
+              <img src="{{ url_for('static', filename='images/' + gift['image']) }}" alt="{{ gift['name'] }}">
+              <h3>{{ gift['name'] }}</h3>
+              <p>{{ gift['description'] }}</p>
+              <p><strong>{{ gift['price'] }} сом.</strong></p> <!-- Цена на главной странице -->
+              <p><strong>{{ gift['store_name'] }}</strong></p> <!-- Магазин -->
+          </div>
+      </a>
+  {% endfor %}
+</div>
     </div>
   </main>
 
