@@ -3,7 +3,7 @@ import pandas as pd
 from datetime import datetime
 from flask import (
     Flask, render_template, request, redirect,
-    url_for, flash
+    url_for, flash, session  # Добавлен импорт session
 )
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import (
@@ -12,9 +12,6 @@ from flask_login import (
 )
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
-from flask import Flask, render_template, request, redirect, url_for, flash, session
-
-
 
 app = Flask(__name__)
 
@@ -29,7 +26,6 @@ db = SQLAlchemy(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
-
 
 gifts_df = pd.read_csv('gifts_data.csv')
 if 'id' not in gifts_df.columns:
@@ -74,7 +70,6 @@ def home():
         gifts=gifts_df.to_dict(orient='records')
     )
 
-
 @app.route('/filter', methods=['GET'])
 def filter_gifts():
     category = request.args.get('category', default=None)
@@ -98,21 +93,20 @@ def filter_gifts():
         recipients=recipients
     )
 
+@app.route('/wishlist')
+def wishlist():
+    wishlist_ids = session.get('wishlist', [])
+    wishlist_gifts = gifts_df[gifts_df['id'].isin(wishlist_ids)]
+    return render_template('wishlist.html', gifts=wishlist_gifts.to_dict(orient='records'))
 
 @app.route('/add_to_wishlist/<int:gift_id>', methods=['POST'])
 def add_to_wishlist(gift_id):
     wishlist = session.get('wishlist', [])
     if gift_id not in wishlist:
         wishlist.append(gift_id)
-    session['wishlist'] = wishlist
+        session['wishlist'] = wishlist
+        session.modified = True  # Явно говорим Flask, что сессия была изменена
     return redirect(url_for('gift_detail', gift_id=gift_id))
-
-
-@app.route('/wishlist')
-def wishlist():
-    wishlist_ids = session.get('wishlist', [])
-    wishlist_gifts = gifts_df[gifts_df['id'].isin(wishlist_ids)]
-    return render_template('wishlist.html', gifts=wishlist_gifts.to_dict(orient='records'))
 
 @app.route('/remove_from_wishlist/<int:gift_id>', methods=['POST'])
 def remove_from_wishlist(gift_id):
@@ -132,8 +126,6 @@ def gift_detail(gift_id):
 
     gift = gift[0]
     return render_template('gift_detail.html', gift=gift)
-
-
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
