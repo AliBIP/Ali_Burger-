@@ -93,6 +93,29 @@ def filter_gifts():
         recipients=recipients
     )
 
+@app.route('/search')
+def search():
+    query = request.args.get('query', '').lower()
+
+    all_gifts = gifts_df.to_dict(orient='records')
+    filtered_gifts = []
+
+    for gift in all_gifts:
+        if query in gift['name'].lower() or query in gift['description'].lower():
+            filtered_gifts.append(gift)
+
+    categories = gifts_df['category'].unique()
+    recipients = gifts_df['recipient'].unique()
+
+    return render_template(
+    'index.html',
+    gifts=filtered_gifts,
+    categories=categories,
+    recipients=recipients
+)
+
+
+
 @app.route('/wishlist')
 def wishlist():
     wishlist_ids = session.get('wishlist', [])

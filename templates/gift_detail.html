@@ -122,35 +122,35 @@
             <img src="{{ url_for('static', filename='images/' + gift.image) }}" alt="{{ gift.name }}">
             <h1>{{ gift.name }}</h1>
             <p>{{ gift.description }}</p>
-            <p><strong>Цена: </strong>{{ gift.price }} сом</p>
+            <p><strong>Price: </strong>{{ gift.price }} som</p>
             
             <form action="{{ url_for('add_to_wishlist', gift_id=gift.id) }}" method="post">
                 <button type="submit" class="wishlist-button">
-                    {% if gift.id in session['wishlist'] %} ✅ В вишлисте {% else %} ➕ Добавить в вишлист {% endif %}
+                    {% if gift.id in session['wishlist'] %} ✅ In wishlist {% else %} ➕ Add to wishlist {% endif %}
                 </button>
             </form>
         </div>
 
         <div class="store-info">
-            <h3>Магазин: {{ gift.store }}</h3>
-            <p><strong>Контактный телефон:</strong> +996 700 000 000</p>
+            <h3>Store: {{ gift.store }}</h3>
+            <p><strong>Contact number:</strong> +996 700 000 000</p>
             
             {% if gift.store == "Technodom" %}
             <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2924.885987210163!2d76.8882875!3d43.2389491!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38836efb206aa6e5%3A0xa90c6d34d00a7757!2sTechnodom!5e0!3m2!1sen!2skg!4v1712783731912" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-            <a href="https://maps.app.goo.gl/arvVd9Q26mph2tv28" target="_blank">Открыть в Google Картах</a>
+            <a href="https://maps.app.goo.gl/arvVd9Q26mph2tv28" target="_blank">Open on Google Maps</a>
         {% elif gift.store == "Sezimastore and Dali_Collection" %}
             <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2924.944001227151!2d76.9007896!3d43.2416492!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38836ee8fc30dc6d%3A0x95b4ec8163f317e7!2sFashion%20Shop!5e0!3m2!1sen!2skg!4v1712783826577" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-            <a href="https://maps.app.goo.gl/Ne6pBE9MYvjoQ2TE9" target="_blank">Открыть в Google Картах</a>
+            <a href="https://maps.app.goo.gl/Ne6pBE9MYvjoQ2TE9" target="_blank">Open on Google Maps</a>
         {% elif gift.store == "Toyskg" %}
             <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2924.812889942997!2d76.9041365!3d43.2505763!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x388369d3f34dbf41%3A0x2d3a1f5115d991ce!2sToyskg!5e0!3m2!1sen!2skg!4v1712783857356" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-            <a href="https://maps.app.goo.gl/ZZqoa653pnB4SPMu6" target="_blank">Открыть в Google Картах</a>
+            <a href="https://maps.app.goo.gl/ZZqoa653pnB4SPMu6" target="_blank">Open on Google Maps</a>
         {% elif gift.store == "Раритет" %}
             <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2924.7153187099147!2d76.8776135!3d43.2547634!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3883693c27e95c71%3A0x409f4c3d24cce13b!2z0KDQtdGB0YLQvtGA0L7QstGB0LrQsNGPINGD0LsuLCAxNSwg0JHRg9GA0YHQuNC90LrQvtCz0L4g0LrQvtGA0L_Rg9GB0LrQsNGPINC60L7QvdGP0Y8sINCh0LDQvNC40L3QsCwg0KPQutGA0LDRl9C90YHRgtCw0L3QuNGP!5e0!3m2!1sen!2skg!4v1712783893222" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-            <a href="https://maps.app.goo.gl/tCHCxD1siUEvCoo1A" target="_blank">Открыть в Google Картах</a>
+            <a href="https://maps.app.goo.gl/tCHCxD1siUEvCoo1A" target="_blank">Open on Google Maps</a>
         {% endif %}
         {% if gift.store == "Ques.lavka" %}
             <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2924.885987210163!2d76.8882875!3d43.2389491!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38836efb206aa6e5%3A0xa90c6d34d00a7757!2sTechnodom!5e0!3m2!1sen!2skg!4v1712783731912" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-            <a href="https://maps.app.goo.gl/4xxjpzMM3HV8NqVo7" target="_blank">Открыть в Google Картах</a>
+            <a href="https://maps.app.goo.gl/4xxjpzMM3HV8NqVo7" target="_blank">Open on Google Maps</a>
         {% endif %}
         
         </div>
