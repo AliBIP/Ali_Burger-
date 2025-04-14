@@ -3,7 +3,7 @@ import pandas as pd
 from datetime import datetime
 from flask import (
     Flask, render_template, request, redirect,
-    url_for, flash, session  # Добавлен импорт session
+    url_for, flash, session
 )
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import (
@@ -108,13 +108,11 @@ def search():
     recipients = gifts_df['recipient'].unique()
 
     return render_template(
-    'index.html',
-    gifts=filtered_gifts,
-    categories=categories,
-    recipients=recipients
-)
-
-
+        'index.html',
+        gifts=filtered_gifts,
+        categories=categories,
+        recipients=recipients
+    )
 
 @app.route('/wishlist')
 def wishlist():
@@ -128,7 +126,7 @@ def add_to_wishlist(gift_id):
     if gift_id not in wishlist:
         wishlist.append(gift_id)
         session['wishlist'] = wishlist
-        session.modified = True  # Явно говорим Flask, что сессия была изменена
+        session.modified = True
     return redirect(url_for('gift_detail', gift_id=gift_id))
 
 @app.route('/remove_from_wishlist/<int:gift_id>', methods=['POST'])
@@ -215,7 +213,7 @@ def profile():
 @app.route('/admin_hub')
 @login_required
 def admin_hub():
-    return render_template('Nub.html')
+    return render_template('Nub.html', user=current_user)
 
 @app.route('/logout')
 @login_required
