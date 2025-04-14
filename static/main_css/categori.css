@@ -477,3 +477,17 @@
       width: 100%;
     }
   }
+
+
+
+.search-form {
+    display: block;
+    margin-bottom: 1rem;
+    padding: 0 1rem;
+}
+.search-container {
+  z-index: 1001; 
+  position: relative;
+}
+
+  

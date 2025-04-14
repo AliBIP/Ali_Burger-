@@ -21,3 +21,18 @@ dots.forEach((dot, index) => {
     showSlide(currentSlide);
   });
 });
+
+
+
+    // Responsive sidebar
+    if(window.innerWidth < 768) {
+        sidebar.classList.add('hide');
+      }
+  
+      window.addEventListener('resize', function() {
+        if(this.innerWidth < 768) {
+          sidebar.classList.add('hide');
+        } else {
+          sidebar.classList.remove('hide');
+        }
+      });
