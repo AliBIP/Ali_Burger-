@@ -141,6 +141,12 @@
                 <option value="{{ r }}">{{ r }}</option>
             {% endfor %}
         </select>
+        <select name="holiday">
+          <option value="">Choose holiday</option>
+          {% for r in holidays %}
+              <option value="{{ r }}">{{ r }}</option>
+          {% endfor %}
+      </select>
         <button type="submit">Filter</button>
     </form>
 
