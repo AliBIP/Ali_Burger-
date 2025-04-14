@@ -1,27 +1,33 @@
-name,category,description,image,store,price,recipient
-Smartwatch,Technology,Tracking physical activity,smartwatch.jpg,Technodom,3000,Men
-Wireless headphones,Technology,Excellent sound quality,headphone.jpg,Technodom,3000,Men
-Lego constructor,Toys,To develop logic and creativity,lego.jpg,Toyskg,4000,Kids
-Toy car,Toys,For exciting games,car.jpg,Toyskg,1000,Kids
-T-shirt with print,Clothes,Stylish and convenient gift,tshirt.jpg,Sezimastore and Dali_Collection,1500,Woman
-Cap,Clothes,Fashion accessory,cap.jpg,Sezimastore and Dali_Collection,1000,Men
-Science of the Universe,Books,Educational book about space,bookuni.jpg,Раритет,800,Woman
-A novel about love,Books,Romantic story,romance.jpg,Раритет,800,Woman
-Smartphone,Technology,Modern device with powerful features,smartphone.jpg,Technodom,10000,Men
-VR headset,Technology,Immersive virtual reality experience,vr.jpg,Technodom,20000,Kids
-Board game,Toys,Fun for family and friends,boardgame.jpg,Toyskg,2000,Kids
-Remote control drone,Toys,Fly and film from above,drone.jpg,Toyskg,2400,Kids
-Jeans,Clothes,Classic and durable clothing,jeans.jpg,Sezimastore and Dali_Collection,1300,Woman
-Backpack,Clothes,Spacious and stylish for daily use,backpack.jpg,Sezimastore and Dali_Collection,2000,Men
-Encyclopedia of Animals,Books,Colorful guide to the animal kingdom,animals.jpg,Раритет,1000,Kids
-Fantasy novel,Books,Exciting journey in a magical world,fantasy.jpg,Раритет,800,Kids
-PlayStation 5,Technology,Home video game console developed by Sony Interactive Entertainment,play.jpg,Technodom,50000,Men
-Socks,Clothes,Soft and breathable and stylish – these cotton socks are the perfect everyday essential,socks.jpg,Sezimastore and Dali_Collection,200,Men
-Mini-bar,Technology,A perfect gift for those who enjoy hosting or experimenting with mixology or simply sipping in style,bar.jpg,Technodom,10000,Men
-Comics,Books,Dive into epic adventures and heroic battles and unforgettable characters with this comic book collection,comics.jpg,Раритет,500,Kids
-Scented candles,For home,Create a cozy and relaxing atmosphere with these beautifully scented candles,candles.jpg,Ques.lavka,300,Woman
-Earrings,Jewelry,Timeless and graceful these earrings add a touch of sparkle to any look,earrings.jpg,Ques.lavka,1000,Woman
-Pendant,Jewelry,Delicate and meaningful this pendant necklace is a beautiful way to express style and sentiment,pendant.jpg,Ques.lavka,1000,Woman
-Ring,Jewelry,A symbol of style and sentiment this elegant ring adds a touch of sophistication to any outfit,ring.jpg,Ques.lavka,1000,Woman
-Plush Toy,Toys,Soft and cuddly and full of charm — this plush toy is the perfect companion,plush.jpg,Ques.lavka,1500,Woman
-Desk Lamp,For home,Illuminate your workspace or reading nook with this sleek and stylish desk lamp,lamp.jpg,Ques.lavka,1700,Woman
+name,category,description,image,store,price,recipient,holiday
+Smartwatch,Technology,Tracking physical activity,smartwatch.jpg,Technodom,3000,Men,Happy Birth Day
+Wireless headphones,Technology,Excellent sound quality,headphone.jpg,Technodom,3000,Men,Happy Birth Day
+Lego constructor,Toys,To develop logic and creativity,lego.jpg,Toyskg,4000,Kids,Happy Birth Day
+Toy car,Toys,For exciting games,car.jpg,Toyskg,1000,Kids,Happy Birth Day
+T-shirt with print,Clothes,Stylish and convenient gift,tshirt.jpg,Sezimastore and Dali_Collection,1500,Woman,Happy Birth Day
+Cap,Clothes,Fashion accessory,cap.jpg,Sezimastore and Dali_Collection,1000,Men,Happy Birth Day
+Science of the Universe,Books,Educational book about space,bookuni.jpg,Раритет,800,Woman,Happy Birth Day
+A novel about love,Books,Romantic story,romance.jpg,Раритет,800,Woman,8 March
+Smartphone,Technology,Modern device with powerful features,smartphone.jpg,Technodom,10000,Men,Happy Birth Day
+VR headset,Technology,Immersive virtual reality experience,vr.jpg,Technodom,20000,Kids,Happy Birth Day
+Board game,Toys,Fun for family and friends,boardgame.jpg,Toyskg,2000,Kids,Happy Birth Day
+Remote control drone,Toys,Fly and film from above,drone.jpg,Toyskg,2400,Kids,Happy Birth Day
+Jeans,Clothes,Classic and durable clothing,jeans.jpg,Sezimastore and Dali_Collection,1300,Woman,Happy Birth Day
+Backpack,Clothes,Spacious and stylish for daily use,backpack.jpg,Sezimastore and Dali_Collection,2000,Men,Happy Birth Day
+Encyclopedia of Animals,Books,Colorful guide to the animal kingdom,animals.jpg,Раритет,1000,Kids,Happy Birth Day
+Fantasy novel,Books,Exciting journey in a magical world,fantasy.jpg,Раритет,800,Kids,Happy Birth Day
+PlayStation 5,Technology,Home video game console developed by Sony Interactive Entertainment,play.jpg,Technodom,50000,Men,Happy Birth Day
+Socks,Clothes,Soft and breathable and stylish – these cotton socks are the perfect everyday essential,socks.jpg,Sezimastore and Dali_Collection,200,Men,23 February
+Mini-bar,Technology,A perfect gift for those who enjoy hosting or experimenting with mixology or simply sipping in style,bar.jpg,Technodom,10000,Men,23 February
+Comics,Books,Dive into epic adventures and heroic battles and unforgettable characters with this comic book collection,comics.jpg,Раритет,500,Kids,Happy Birth Day
+Scented candles,For home,Create a cozy and relaxing atmosphere with these beautifully scented candles,candles.jpg,Ques.lavka,300,Woman,8 March
+Earrings,Jewelry,Timeless and graceful these earrings add a touch of sparkle to any look,earrings.jpg,Ques.lavka,1000,Woman,8 March
+Pendant,Jewelry,Delicate and meaningful this pendant necklace is a beautiful way to express style and sentiment,pendant.jpg,Ques.lavka,1000,Woman,8 March
+Ring,Jewelry,A symbol of style and sentiment this elegant ring adds a touch of sophistication to any outfit,ring.jpg,Ques.lavka,1000,Woman,8 March
+Plush Toy,Toys,Soft and cuddly and full of charm — this plush toy is the perfect companion,plush.jpg,Ques.lavka,1500,Woman,8 March
+Desk Lamp,For home,Illuminate your workspace or reading nook with this sleek and stylish desk lamp,lamp.jpg,Ques.lavka,1700,Woman,Happy Birth Day
+Thermos,For home,This sleek and durable thermos is perfect for keeping your favorite drinks hot or cold for hours,thermos.jpg,Ques.lavka,1000,Men,23 February
+powerbank,Technology,Never run out of battery again with this compact and reliable power bank,power.jpg,Ques.lavka,1600,Men,23 February
+Mittens,Clothes,Keep your hands warm and stylish with these soft insulated mittens,mittens.jpg,Sezimastore and Dali_Collection,800,Woman,New Year
+Handmade christmas tree decorations,For home,Bring a touch of warmth and charm to your holiday season with these beautifully crafted handmade Christmas tree decorations,decor.jpg,Ques.lavka,1200,Kids,New Year
+Pajamas,Clothes,Slip into ultimate relaxation with these cozy soft pajamas – perfect for a restful night’s sleep or lazy mornings at home,pajamas.jpg,Sezimastore and Dali_Collection,1500,Woman,New Year
+Glass ball with snow,For home,This beautifully crafted glass orb adds a delicate magical accent to any space,snow.jpg,Ques.lavka,800,Kids,New Year

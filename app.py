@@ -63,10 +63,12 @@ def main():
 def home():
     categories = gifts_df['category'].unique()
     recipients = gifts_df['recipient'].unique()
+    holidays = gifts_df['holiday'].unique()
     return render_template(
         'index.html',
         categories=categories,
         recipients=recipients,
+        holidays=holidays,
         gifts=gifts_df.to_dict(orient='records')
     )
 
@@ -74,23 +76,29 @@ def home():
 def filter_gifts():
     category = request.args.get('category', default=None)
     recipient = request.args.get('recipient', default=None)
+    holiday = request.args.get('holiday', default=None)
 
     filtered_gifts = gifts_df
 
     if category:
         filtered_gifts = filtered_gifts[filtered_gifts['category'] == category]
 
+    if holiday:
+        filtered_gifts = filtered_gifts[filtered_gifts['holiday'] == holiday]
+
     if recipient:
         filtered_gifts = filtered_gifts[filtered_gifts['recipient'] == recipient]
 
     categories = gifts_df['category'].unique()
     recipients = gifts_df['recipient'].unique()
+    holidays = gifts_df['holiday'].unique()
 
     return render_template(
         'index.html',
         gifts=filtered_gifts.to_dict(orient='records'),
         categories=categories,
-        recipients=recipients
+        recipients=recipients,
+        holidays=holidays 
     )
 
 @app.route('/search')
@@ -106,13 +114,18 @@ def search():
 
     categories = gifts_df['category'].unique()
     recipients = gifts_df['recipient'].unique()
+    holidays = gifts_df['holiday'].unique()
 
     return render_template(
-        'index.html',
-        gifts=filtered_gifts,
-        categories=categories,
-        recipients=recipients
-    )
+
+    'index.html',
+    gifts=filtered_gifts,
+    categories=categories,
+    recipients=recipients,
+    holidays=holidays
+)
+
+
 
 @app.route('/wishlist')
 def wishlist():
