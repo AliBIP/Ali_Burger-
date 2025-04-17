@@ -15,7 +15,7 @@
         </a>
         <ul class="side-menu top">
             <li class="active">
-                <a href="#">
+                <a href="{{ url_for('home') }}">
                     <i class='bx bxs-dashboard'></i>
                     <span class="text">Dashboard</span>
                 </a>
@@ -83,119 +83,59 @@
         </nav>
 
         <main>
-            <div class="head-title">
-                <div class="left">
-                    <h1>Dashboard</h1>
-                    <ul class="breadcrumb">
-                        <li><a href="#">Dashboard</a></li>
-                        <li><i class='bx bx-chevron-right'></i></li>
-                        <li><a class="active" href="#">Home</a></li>
-                    </ul>
+            <div class="profile-container">
+              <div class="profile-header">
+                <div class="profile-avatar">
+                    <img src='{{ current_user.avatar_url }}' alt="Profile Picture">
                 </div>
-                <a href="#" class="btn-download">
-                    <i class='bx bxs-cloud-download'></i>
-                    <span class="text">Download Report</span>
-                </a>
-            </div>
-
-            <ul class="box-info">
-                <li>
-                    <i class='bx bxs-shopping-bags'></i>
-                    <span class="text">
-                        <h3>154</h3>
-                        <p>Total Orders</p>
-                    </span>
-                </li>
-                <li>
-                    <i class='bx bxs-gift'></i>
-                    <span class="text">
-                        <h3>284</h3>
-                        <p>Products Sold</p>
-                    </span>
-                </li>
-                <li>
-                    <i class='bx bxs-dollar-circle'></i>
-                    <span class="text">
-                        <h3>$15,543</h3>
-                        <p>Total Revenue</p>
-                    </span>
-                </li>
-            </ul>
-
-            <div class="table-data">
-                <div class="order">
-                    <div class="head">
-                        <h3>Recent Orders</h3>
-                        <i class='bx bx-search'></i>
-                        <i class='bx bx-filter'></i>
+                <div class="profile-info">
+                  <h1> {{ current_user.username }}</h1>
+                  <p class="username">{{ current_user.email }}</p>
+                  <p class="bio">{{ current_user.bio or '' }}</p>
+                  <div class="profile-stats">
+                    <div class="stat">
+                      <span class="stat-number">{{ current_user.date_of_birth.strftime('%Y-%m-%d') if current_user.date_of_birth else '' }}</span>
+                      <span class="stat-label">Birthday</span>
                     </div>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Customer</th>
-                                <th>Order Date</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?crop=entropy&cs=srgb&fm=jpg&ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzI0MDI4MDN8&ixlib=rb-4.0.3&q=85" alt="Customer">
-                                    <p>Sarah Johnson</p>
-                                </td>
-                                <td>14-03-2024</td>
-                                <td><span class="status completed">Delivered</span></td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?crop=entropy&cs=srgb&fm=jpg&ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzI0MDI4MDN8&ixlib=rb-4.0.3&q=85" alt="Customer">
-                                    <p>Michael Smith</p>
-                                </td>
-                                <td>14-03-2024</td>
-                                <td><span class="status pending">Processing</span></td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?crop=entropy&cs=srgb&fm=jpg&ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzI0MDI4MDN8&ixlib=rb-4.0.3&q=85" alt="Customer">
-                                    <p>Emma Davis</p>
-                                </td>
-                                <td>13-03-2024</td>
-                                <td><span class="status process">Shipped</span></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="todo">
-                    <div class="head">
-                        <h3>Popular Products</h3>
-                        <i class='bx bx-plus'></i>
-                        <i class='bx bx-filter'></i>
+                    <div class="stat">
+                      <span class="stat-number">{{ current_user.gender }}</span>
+                      <span class="stat-label">Gender</span>
                     </div>
-                    <ul class="todo-list">
-                        <li class="completed">
-                            <p>Handmade Jewelry Box</p>
-                            <i class='bx bx-dots-vertical-rounded'></i>
-                        </li>
-                        <li class="completed">
-                            <p>Personalized Photo Frame</p>
-                            <i class='bx bx-dots-vertical-rounded'></i>
-                        </li>
-                        <li class="not-completed">
-                            <p>Custom Mug Set</p>
-                            <i class='bx bx-dots-vertical-rounded'></i>
-                        </li>
-                        <li class="completed">
-                            <p>Scented Candle Collection</p>
-                            <i class='bx bx-dots-vertical-rounded'></i>
-                        </li>
-                        <li class="not-completed">
-                            <p>Plush Bear Bundle</p>
-                            <i class='bx bx-dots-vertical-rounded'></i>
-                        </li>
-                    </ul>
+                  </div>
                 </div>
+              </div>
+        
+              <div class="profile-posts">
+                <h2>Recent Goods</h2>
+                <div class="posts-grid">
+                  <div class="post">
+                    <img src="https://images.unsplash.com/photo-1516483638261-f4dbaf036963" alt="Post 1">
+                    <div class="post-info">
+                      <h3>Summer in Italy</h3>
+                      <p>Exploring the beautiful streets of Florence 🇮🇹</p>
+                      <span class="post-date">March 15, 2024</span>
+                    </div>
+                  </div>
+                  <div class="post">
+                    <img src="https://images.unsplash.com/photo-1523906834658-6e24ef2386f9" alt="Post 2">
+                    <div class="post-info">
+                      <h3>Venice Canals</h3>
+                      <p>Golden hour at the Grand Canal ⛵</p>
+                      <span class="post-date">March 13, 2024</span>
+                    </div>
+                  </div>
+                  <div class="post">
+                    <img src="https://images.unsplash.com/photo-1533105079780-92b9be482077" alt="Post 3">
+                    <div class="post-info">
+                      <h3>Roman Holiday</h3>
+                      <p>When in Rome... 🏛️</p>
+                      <span class="post-date">March 10, 2024</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-        </main>
+          </main>
     </section>
 
     <script src="{{ url_for('static', filename='mode.js/Nub.js') }}"></script>
