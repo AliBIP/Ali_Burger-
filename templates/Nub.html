@@ -104,34 +104,26 @@
                   </div>
                 </div>
               </div>
-        
               <div class="profile-posts">
                 <h2>Recent Goods</h2>
                 <div class="posts-grid">
+                  {% for gift in gifts[:3] %}
                   <div class="post">
-                    <img src="https://images.unsplash.com/photo-1516483638261-f4dbaf036963" alt="Post 1">
-                    <div class="post-info">
-                      <h3>Summer in Italy</h3>
-                      <p>Exploring the beautiful streets of Florence 🇮🇹</p>
-                      <span class="post-date">March 15, 2024</span>
-                    </div>
+                    <a href="{{ url_for('gift_detail', gift_id=gift['id']) }}" target="_blank" style="text-decoration: none; color: inherit;">
+                      <img src="{{ url_for('static', filename='images/' + gift['image']) }}" alt="{{ gift['name'] }}">
+                      <div class="post-info">
+                        <h3>{{ gift['name'] }}</h3>
+                        <p>{{ gift['description'] }}</p>
+                        <p><strong>{{ gift['price'] }} сом</strong></p>
+                        <span class="post-date">{{ gift['store_name'] }}</span>
+                      </div>
+                    </a>
                   </div>
-                  <div class="post">
-                    <img src="https://images.unsplash.com/photo-1523906834658-6e24ef2386f9" alt="Post 2">
-                    <div class="post-info">
-                      <h3>Venice Canals</h3>
-                      <p>Golden hour at the Grand Canal ⛵</p>
-                      <span class="post-date">March 13, 2024</span>
-                    </div>
-                  </div>
-                  <div class="post">
-                    <img src="https://images.unsplash.com/photo-1533105079780-92b9be482077" alt="Post 3">
-                    <div class="post-info">
-                      <h3>Roman Holiday</h3>
-                      <p>When in Rome... 🏛️</p>
-                      <span class="post-date">March 10, 2024</span>
-                    </div>
-                  </div>
+                  {% endfor %}
+                </div>
+              </div>
+              
+              
                 </div>
               </div>
             </div>
