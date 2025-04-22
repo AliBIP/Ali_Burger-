@@ -10,6 +10,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const giftModal = document.getElementById('gift-modal');
     const closeModal = document.querySelector('.close-modal');
     const giftOptions = document.querySelectorAll('.gift-option');
+    const current_user = { id: 1, username: 'User1' };  // Это должен быть реальный пользователь, полученный из вашего API или хранилища
+
     
     let currentConversationId = null;
     
@@ -38,39 +40,41 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     }
     
-    // Load messages for a conversation
-    function loadMessages(conversationId, otherUser = null) {
-        currentConversationId = conversationId;
-        
-        fetch(`/api/messages/${conversationId}`)
-            .then(response => response.json())
-            .then(messages => {
-                messagesEl.innerHTML = '';
+// Load messages for a conversation
+function loadMessages(conversationId, otherUser = null) {
+    currentConversationId = conversationId;
+    
+    fetch(`/api/messages/${conversationId}`)
+        .then(response => response.json())
+        .then(messages => {
+            messagesEl.innerHTML = '';
+            
+            if (otherUser) {
+                document.getElementById('current-chat').textContent = `Chat with ${otherUser.username}`;
+            }
+            
+            messages.forEach(msg => {
+                const messageEl = document.createElement('div');
+                // Ensure the sender is recognized as current user
+                messageEl.className = `message ${msg.sender_id === current_user.id ? 'sent' : 'received'}`;
                 
-                if (otherUser) {
-                    document.getElementById('current-chat').textContent = `Chat with ${otherUser.username}`;
+                if (msg.is_gift) {
+                    messageEl.innerHTML = `
+                        <p>Sent a gift</p>
+                        <img src="/static/images/${msg.gift_id}.jpg" alt="Gift" class="gift-image">
+                    `;
+                } else {
+                    messageEl.textContent = msg.content;
                 }
                 
-                messages.forEach(msg => {
-                    const messageEl = document.createElement('div');
-                    messageEl.className = `message ${msg.sender_id === current_user.id ? 'sent' : 'received'}`;
-                    
-                    if (msg.is_gift) {
-                        messageEl.innerHTML = `
-                            <p>Sent a gift</p>
-                            <img src="/static/images/${msg.gift_id}.jpg" alt="Gift" class="gift-image">
-                        `;
-                    } else {
-                        messageEl.textContent = msg.content;
-                    }
-                    
-                    messagesEl.appendChild(messageEl);
-                });
-                
-                // Scroll to bottom
-                messagesEl.scrollTop = messagesEl.scrollHeight;
+                messagesEl.appendChild(messageEl);
             });
-    }
+            
+            // Scroll to bottom
+            messagesEl.scrollTop = messagesEl.scrollHeight;
+        });
+}
+    
     
     // Send message
     function sendMessage() {

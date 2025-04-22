@@ -282,13 +282,3 @@ if __name__ == '__main__':
     app.run(debug=True)
 
 
-@app.route('/messenger/<int:conversation_id>')
-@login_required
-def messenger(conversation_id):
-    conversation = Conversation.query.get_or_404(conversation_id)
-    if current_user.id not in [conversation.user1_id, conversation.user2_id]:
-        flash('Вы не можете просматривать этот разговор.', 'danger')
-        return redirect(url_for('home'))
-
-    messages = Message.query.filter_by(conversation_id=conversation_id).all()
-    return render_template('messenger.html', conversation=conversation, messages=messages)
