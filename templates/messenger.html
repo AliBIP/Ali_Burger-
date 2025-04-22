@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Choose gift</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='main_css/messenger.css') }}">
+</head>
+<body>
+  <section id="sidebar">
+    <a href="#" class="brand">
+        <i class='bx bxs-gift'></i>
+        <span class="text">GiftWise</span>
+    </a>
+    <ul class="side-menu top">
+        <li class="active">
+            <a href="{{ url_for('admin_hub') }}">
+                <i class='bx bxs-dashboard'></i>
+                <span class="text">Profile</span>
+            </a>
+        </li>
+        <li>
+            <a href="#">
+                <i class='bx bxs-gift'></i>
+                <span class="text">Products</span>
+            </a>
+        </li>
+        <li>
+            <a href="#">
+                <i class='bx bxs-category'></i>
+                <span class="text">Categories</span>
+            </a>
+        </li>
+        <li>
+            <a href="{{ url_for('wishlist') }}">
+                <i class='bx bxs-shopping-bags'></i>
+                <span class="text">Orders</span>
+            </a>
+        </li>
+        <li>
+            <a href="#">
+                <i class='bx bxs-user-detail'></i>
+                <span class="text">Customers</span>
+            </a>
+        </li><!-- Add this below the Customers list item -->
+        <li>
+            <a href="{{ url_for('messenger') }}">
+                <i class='bx bxs-message-alt-dots'></i>
+                <span class="text">Messenger</span>
+            </a>
+        </li>
+    </ul>
+    <ul class="side-menu">
+        <li>
+            <a href="{{ url_for('profile') }}">
+                <i class='bx bxs-cog'></i>
+                <span class="text">Settings</span>
+            </a>
+        </li>
+        <li>
+            <a href="{{ url_for('logout') }}" class="logout">
+                <i class='bx bxs-log-out-circle'></i>
+                <span class="text">Logout</span>
+            </a>
+        </li>
+    </ul>
+</section>
+
+<section id="content">
+    <nav>
+        <i class='bx bx-menu'></i>
+        <a href="#" class="nav-link">Categories</a>
+        <div action="{{ url_for('search') }}" method="get" class = "newman">
+            <div class="form-input">
+                <input type="search" name="query" placeholder="Search products...">
+                <button type="submit" class="search-btn"><i class='bx bx-search'></i></button>
+            </div>
+          </div>
+        <input type="checkbox" id="switch-mode" hidden>
+        <label for="switch-mode" class="switch-mode"></label>
+        <a href="{{ url_for('wishlist') }}" class="notification">
+            <i class='bx bxs-bell'></i>
+            <span class="num">8</span>
+        </a>
+        <a href="#" class="profile">
+            <img src='{{ current_user.avatar_url }}' alt="Profile Picture">
+        </a>
+    </nav>
+
+    <div class="messenger-container">
+        <div class="conversation-list">
+            <div class="search-users">
+                <input type="text" placeholder="Search users..." id="user-search">
+                <button id="search-btn"><i class='bx bx-search'></i></button>
+            </div>
+            <div class="conversations" id="conversations">
+                <!-- Conversations will be loaded here -->
+            </div>
+        </div>
+        
+        <div class="message-area">
+            <div class="message-header">
+                <h3 id="current-chat">Select a conversation</h3>
+            </div>
+            <div class="messages" id="messages">
+                <!-- Messages will be loaded here -->
+            </div>
+            <div class="message-input">
+                <input type="text" placeholder="Type a message..." id="message-text">
+                <button id="send-btn"><i class='bx bxs-send'></i></button>
+                <button id="gift-btn" title="Send a gift"><i class='bx bxs-gift'></i></button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Gift selection modal (hidden by default) -->
+    <div class="gift-modal" id="gift-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3>Select a gift to send</h3>
+            <div class="gift-selection">
+                {% for gift in gifts %}
+                <div class="gift-option" data-gift-id="{{ gift.id }}">
+                    <img src="{{ url_for('static', filename='images/' + gift.image) }}" alt="{{ gift.name }}">
+                    <p>{{ gift.name }}</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+
+
+  <script>document.addEventListener("DOMContentLoaded", () => {
+    const sendBtn = document.getElementById("send-btn");
+    const messageText = document.getElementById("message-text");
+    const messages = document.getElementById("messages");
+    const giftBtn = document.getElementById("gift-btn");
+    const giftModal = document.getElementById("gift-modal");
+    const closeModal = document.querySelector(".close-modal");
+    const giftOptions = document.querySelectorAll(".gift-option");
+
+    let currentUserId = null;
+
+    function loadConversations() {
+      fetch("/api/conversations")
+        .then(res => res.json())
+        .then(data => {
+          const convContainer = document.getElementById("conversations");
+          convContainer.innerHTML = "";
+          data.forEach(conv => {
+            const div = document.createElement("div");
+            div.className = "conversation";
+            div.textContent = conv.username;
+            div.dataset.userId = conv.user_id;
+            div.onclick = () => selectConversation(conv.user_id, conv.username);
+            convContainer.appendChild(div);
+          });
+        });
+    }
+
+    function selectConversation(userId, username) {
+      currentUserId = userId;
+      document.getElementById("current-chat").textContent = username;
+      fetch(`/api/messages/${userId}`)
+        .then(res => res.json())
+        .then(data => {
+          messages.innerHTML = "";
+          data.forEach(msg => {
+            const div = document.createElement("div");
+            div.className = "message";
+            div.textContent = msg.content;
+            messages.appendChild(div);
+          });
+        });
+    }
+
+    sendBtn.onclick = () => {
+      const text = messageText.value.trim();
+      if (!text || !currentUserId) return;
+      fetch("/api/messages/send", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ receiver_id: currentUserId, content: text })
+      }).then(() => {
+        messageText.value = "";
+        selectConversation(currentUserId, document.getElementById("current-chat").textContent);
+      });
+    };
+
+    giftBtn.onclick = () => {
+      if (!currentUserId) return;
+      giftModal.style.display = "block";
+    };
+
+    closeModal.onclick = () => {
+      giftModal.style.display = "none";
+    };
+
+    giftOptions.forEach(option => {
+      option.onclick = () => {
+        const giftId = option.dataset.giftId;
+        fetch("/api/messages/send_gift", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ receiver_id: currentUserId, gift_id: giftId })
+        }).then(() => {
+          giftModal.style.display = "none";
+          selectConversation(currentUserId, document.getElementById("current-chat").textContent);
+        });
+      };
+    });
+
+    loadConversations();
+  });</script>  
+
+  <script type="module" src="/static/mode.js/categori.js"></script>
+  <script>
+    // Set current user ID for the messenger.js to use
+    document.body.setAttribute('data-user-id', '{{ current_user.id }}');
+</script>
+<script src="{{ url_for('static', filename='js/messenger.js') }}"></script>
+</body>
+</html>

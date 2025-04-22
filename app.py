@@ -1,11 +1,13 @@
 import os
 import pandas as pd
 from datetime import datetime
-from flask import Flask, render_template, request, redirect, url_for, flash, session
+from flask import Flask, jsonify, render_template, request, redirect, url_for, flash, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
+from datetime import datetime
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'supersecretkey'
@@ -23,6 +25,8 @@ gifts_df = pd.read_csv('gifts_data.csv')
 if 'id' not in gifts_df.columns:
     gifts_df.insert(0, 'id', range(1, len(gifts_df) + 1))
 gifts_df['image'] = gifts_df['image'].fillna('default.jpg').astype(str)
+
+
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -198,7 +202,91 @@ def logout():
     flash('Вы вышли из системы.', 'info')
     return redirect(url_for('login'))
 
+
+class Conversation(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user1_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user2_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+class Message(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    conversation_id = db.Column(db.Integer, db.ForeignKey('conversation.id'), nullable=False)
+    sender_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    content = db.Column(db.Text, nullable=False)
+    sent_at = db.Column(db.DateTime, default=datetime.utcnow)
+    is_gift = db.Column(db.Boolean, default=False)
+    gift_id = db.Column(db.Integer, nullable=True)
+
+@app.route('/messenger')
+@login_required
+def messenger():
+    conversations = Conversation.query.filter(
+        (Conversation.user1_id == current_user.id) | 
+        (Conversation.user2_id == current_user.id)
+    ).all()
+    return render_template('messenger.html', conversations=conversations, gifts=gifts_df.to_dict('records'))
+
+@app.route('/api/messages/<int:conversation_id>')
+@login_required
+def get_messages(conversation_id):
+    messages = Message.query.filter_by(conversation_id=conversation_id).order_by(Message.sent_at).all()
+    return jsonify([{
+        'id': msg.id,
+        'sender_id': msg.sender_id,
+        'content': msg.content,
+        'sent_at': msg.sent_at.strftime('%Y-%m-%d %H:%M'),
+        'is_gift': msg.is_gift,
+        'gift_id': msg.gift_id
+    } for msg in messages])
+
+@app.route('/api/send_message', methods=['POST'])
+@login_required
+def send_message():
+    data = request.json
+    new_message = Message(
+        conversation_id=data['conversation_id'],
+        sender_id=current_user.id,
+        content=data['content'],
+        is_gift=data.get('is_gift', False),
+        gift_id=data.get('gift_id')
+    )
+    db.session.add(new_message)
+    db.session.commit()
+    return jsonify({'success': True})
+
+@app.route('/api/search_users')
+@login_required
+def search_users():
+    query = request.args.get('query', '')
+    users = User.query.filter(User.username.ilike(f'%{query}%')).filter(User.id != current_user.id).all()
+    return jsonify([{
+        'id': user.id,
+        'username': user.username,
+        'avatar_url': user.avatar_url
+    } for user in users])
+
+@app.route('/api/start_conversation/<int:user_id>', methods=['POST'])
+@login_required
+def start_conversation(user_id):
+    conv = Conversation.query.filter(
+        ((Conversation.user1_id == current_user.id) & (Conversation.user2_id == user_id)) |
+        ((Conversation.user1_id == user_id) & (Conversation.user2_id == current_user.id))
+    ).first()
+    
+    if not conv:
+        conv = Conversation(user1_id=current_user.id, user2_id=user_id)
+        db.session.add(conv)
+        db.session.commit()
+    
+    return jsonify({'conversation_id': conv.id})
+
+
+
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
     app.run(debug=True)
+
+
+
