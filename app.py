@@ -6,8 +6,6 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
-from datetime import datetime
-from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'supersecretkey'
@@ -25,8 +23,6 @@ gifts_df = pd.read_csv('gifts_data.csv')
 if 'id' not in gifts_df.columns:
     gifts_df.insert(0, 'id', range(1, len(gifts_df) + 1))
 gifts_df['image'] = gifts_df['image'].fillna('default.jpg').astype(str)
-
-
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -202,7 +198,6 @@ def logout():
     flash('Вы вышли из системы.', 'info')
     return redirect(url_for('login'))
 
-
 class Conversation(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user1_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
@@ -281,12 +276,19 @@ def start_conversation(user_id):
     
     return jsonify({'conversation_id': conv.id})
 
-
-
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
     app.run(debug=True)
 
 
+@app.route('/messenger/<int:conversation_id>')
+@login_required
+def messenger(conversation_id):
+    conversation = Conversation.query.get_or_404(conversation_id)
+    if current_user.id not in [conversation.user1_id, conversation.user2_id]:
+        flash('Вы не можете просматривать этот разговор.', 'danger')
+        return redirect(url_for('home'))
 
+    messages = Message.query.filter_by(conversation_id=conversation_id).all()
+    return render_template('messenger.html', conversation=conversation, messages=messages)
